@@ -1,8 +1,9 @@
 import { Navbar } from "@/components/navbar"
 import { HeroSection } from "@/components/hero-section"
+import { HowItWorks } from "@/components/how-it-works"
 import { ProductsSuite } from "@/components/products-suite"
+import { SecuritySection } from "@/components/security-section"
 import { AdvantagesSection } from "@/components/advantages-section"
-import { GithubEcosystem } from "@/components/github-ecosystem"
 import { CTASection } from "@/components/cta-section"
 import { Footer } from "@/components/footer"
 
@@ -11,9 +12,10 @@ export default function Home() {
     <main className="min-h-screen bg-white text-black antialiased selection:bg-[#e4ff54] selection:text-black">
       <Navbar />
       <HeroSection />
+      <HowItWorks />
       <ProductsSuite />
+      <SecuritySection />
       <AdvantagesSection />
-      <GithubEcosystem />
       <CTASection />
       <Footer />
     </main>
