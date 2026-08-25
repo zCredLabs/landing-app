@@ -4,11 +4,13 @@ import Link from "next/link"
 import { ArrowRight, Github } from "lucide-react"
 
 export function CTASection() {
+  const [meetingModalOpen, setMeetingModalOpen] = useState(false)
+
   return (
     <section className="py-16 md:py-24 bg-white border-t border-gray-100">
       <div className="container mx-auto px-4 max-w-5xl text-center">
         <div className="rounded-3xl bg-gray-900 p-8 sm:p-14 text-white shadow-xl relative overflow-hidden">
-          
+
           <span className="inline-block rounded-full bg-[#e4ff54] px-4 py-1 text-xs font-bold text-black mb-4">
             Horizen Vela Acceleration Cohort
           </span>
@@ -29,7 +31,7 @@ export function CTASection() {
               Launch Platform Demo
               <ArrowRight className="h-4 w-4" />
             </Link>
-            
+
             <Link
               href="https://github.com/Zauth-HQ"
               target="_blank"

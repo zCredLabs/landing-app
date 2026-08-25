@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { ArrowRight, ShieldCheck, ChevronRight } from "lucide-react"
@@ -10,9 +9,9 @@ export function HeroSection() {
   return (
     <div className="relative w-full overflow-hidden bg-white pt-10 pb-16 md:pt-16 md:pb-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-12 items-center">
-          
+
           {/* Left Hero Content */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -67,7 +66,7 @@ export function HeroSection() {
             className="relative flex items-center justify-center"
           >
             <div className="relative h-[420px] w-full max-w-lg">
-              
+
               {/* Decorative Lens Graphic */}
               <motion.div
                 initial={{ opacity: 0 }}
