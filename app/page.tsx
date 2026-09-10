@@ -4,6 +4,7 @@ import { HowItWorks } from "@/components/how-it-works"
 import { ProductsSuite } from "@/components/products-suite"
 import { SecuritySection } from "@/components/security-section"
 import { AdvantagesSection } from "@/components/advantages-section"
+import { TeamSection } from "@/components/team-section"
 import { CTASection } from "@/components/cta-section"
 import { Footer } from "@/components/footer"
 
@@ -16,6 +17,7 @@ export default function Home() {
       <ProductsSuite />
       <SecuritySection />
       <AdvantagesSection />
+      <TeamSection />
       <CTASection />
       <Footer />
     </main>

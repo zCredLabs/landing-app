@@ -1,8 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import Link from "next/link"
-import { Github, ExternalLink, Sparkles, BookOpen } from "lucide-react"
+import { Sparkles, Shield, Lock, Globe, Cpu, CheckCircle2 } from "lucide-react"
 
 export function AdvantagesSection() {
   const container = {
@@ -22,7 +21,7 @@ export function AdvantagesSection() {
   }
 
   return (
-    <section id="advantages" className="w-full bg-purple-600 py-16 md:py-24">
+    <section id="why-zcred" className="w-full bg-purple-600 py-16 md:py-24 scroll-mt-20">
       <div className="container mx-auto px-4 max-w-7xl">
 
         <motion.div
@@ -38,6 +37,9 @@ export function AdvantagesSection() {
           <h2 className="text-4xl font-bold text-white md:text-5xl">
             Why zCred Leads Confidential Identity
           </h2>
+          <p className="mt-4 text-base text-purple-100 max-w-2xl mx-auto leading-relaxed">
+            Unlike biometric palm scans or coarse public wallet heuristics, zCred evaluates authentic financial and compliance data in hardware-sealed silicon.
+          </p>
         </motion.div>
 
         <motion.div
@@ -49,139 +51,92 @@ export function AdvantagesSection() {
         >
           {/* Card 1 - Verify Once */}
           <motion.div variants={item} className="flex flex-col rounded-3xl bg-white p-6 md:p-8 shadow-sm">
-            <h3 className="mb-3 text-xl font-bold md:text-2xl text-black">Verify Once, Access Across Web3</h3>
-            <p className="mb-6 text-sm text-gray-700 leading-relaxed">
-              Users verify private Web2 and Web3 credential signals once. zCred generates purpose-bound nullifiers so you prove eligibility without dApps tracking your identity across applications.
-            </p>
-            <div className="mt-auto flex justify-center">
-              <div className="relative h-32 w-32 rounded-full bg-purple-600">
-                <div className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white">
-                  <div className="flex h-full w-full flex-col items-center justify-center gap-1.5 p-3">
-                    <div className="h-1.5 w-10 bg-black rounded-full"></div>
-                    <div className="h-1.5 w-10 bg-purple-600 rounded-full"></div>
-                    <div className="h-1.5 w-10 bg-purple-300 rounded-full"></div>
-                  </div>
-                </div>
-              </div>
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-100 text-purple-700 mb-4">
+              <Shield className="h-6 w-6" />
             </div>
+            <h3 className="mb-2 text-xl font-bold md:text-2xl text-black">Domain-Bound Nullifiers (Zero Tracking)</h3>
+            <p className="text-sm text-gray-700 leading-relaxed">
+              Users verify private Web2 credentials and financial signals once. zCred generates cryptographically scoped domain nullifiers (<code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-purple-700">hash(userSecret, appDomain)</code>) so protocols verify eligibility without cross-dApp wallet tracking.
+            </p>
           </motion.div>
 
           {/* Card 2 - Dual-Sided Confidentiality */}
           <motion.div variants={item} className="flex flex-col rounded-3xl bg-white p-6 md:p-8 shadow-sm">
-            <h3 className="mb-3 text-xl font-bold md:text-2xl text-black">Dual-Sided Confidentiality</h3>
-            <p className="mb-6 text-sm text-gray-700 leading-relaxed">
-              Hardware-isolated TEE enclaves shield both user identity data and verifier decision logic. Neither private PII nor proprietary risk algorithms are revealed on public smart contracts.
-            </p>
-            <div className="mt-auto flex justify-center">
-              <div className="relative h-32 w-32 rounded-full bg-[#e4ff54]">
-                <div className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white">
-                  <div className="flex h-full w-full flex-col items-center justify-center p-2">
-                    <span className="text-[10px] font-bold text-black uppercase tracking-wider">TEE Enclave</span>
-                  </div>
-                </div>
-              </div>
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 text-amber-800 mb-4">
+              <Lock className="h-6 w-6" />
             </div>
+            <h3 className="mb-2 text-xl font-bold md:text-2xl text-black">Dual-Sided Shield (IP & Privacy Sealed)</h3>
+            <p className="text-sm text-gray-700 leading-relaxed">
+              AWS Nitro TEE enclaves shield both the borrower&apos;s raw financial data and the enterprise verifier&apos;s proprietary risk scoring algorithms. Neither user bank statements nor institutional risk weights are ever exposed on public chains.
+            </p>
           </motion.div>
 
           {/* Card 3 - zkTLS Web2 Data Ingestion */}
           <motion.div variants={item} className="flex flex-col rounded-3xl bg-white p-6 md:p-8 shadow-sm">
-            <h3 className="mb-3 text-xl font-bold md:text-2xl text-black">zkTLS Web2 Signal Ingestion</h3>
-            <p className="mb-6 text-sm text-gray-700 leading-relaxed">
-              Ingest authentic Web2 signals (bank data, GitHub activity, domain ownership) using zkTLS/TLSNotary primitives. Convert raw Web2 data into cryptographically unfakeable enclave inputs.
-            </p>
-            <div className="mt-auto flex justify-center">
-              <div className="relative h-32 w-32 rounded-full bg-gray-100">
-                <div className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white">
-                  <div className="flex h-full w-full items-center justify-center font-mono font-bold text-xs text-purple-700">
-                    zkTLS
-                  </div>
-                </div>
-              </div>
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-100 text-blue-700 mb-4">
+              <Globe className="h-6 w-6" />
             </div>
+            <h3 className="mb-2 text-xl font-bold md:text-2xl text-black">Client-Side zkTLS Signal Ingestion</h3>
+            <p className="text-sm text-gray-700 leading-relaxed">
+              Ingest authentic Web2 signals (bank cashflows, CEX custody balances, tax records) using client-side zkTLS proofs. Convert raw TLS sessions into cryptographic enclave inputs with zero server session interception or credential sharing.
+            </p>
           </motion.div>
 
           {/* Card 4 - Base EVM Settlement */}
           <motion.div variants={item} className="flex flex-col rounded-3xl bg-white p-6 md:p-8 shadow-sm">
-            <h3 className="mb-3 text-xl font-bold md:text-2xl text-black">Smart Contract Attestation Settlement</h3>
-            <p className="mb-6 text-sm text-gray-700 leading-relaxed">
-              Minimal attestations settle directly on EVM smart contracts. Consuming dApps verify eligibility with a single view call (<code className="bg-gray-100 px-1 py-0.5 rounded text-xs font-mono text-purple-700">IZcredPassport.isValid</code>), eliminating expensive on-chain ZK SNARK verification gas.
-            </p>
-            <div className="mt-auto flex justify-center">
-              <div className="relative h-32 w-32 rounded-full bg-purple-600">
-                <div className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white">
-                  <div className="flex h-full w-full items-center justify-center">
-                    <div className="text-center font-bold text-xs text-black">
-                      <span className="block text-purple-600">EVM</span>
-                      Settlement
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700 mb-4">
+              <Cpu className="h-6 w-6" />
             </div>
+            <h3 className="mb-2 text-xl font-bold md:text-2xl text-black">1-Line Smart Contract Query (&lt;26k Gas)</h3>
+            <p className="text-sm text-gray-700 leading-relaxed">
+              Minimal hardware-attested results settle directly into <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-purple-700">ZcredAttestationRegistry.sol</code> on Base and Horizen. Consuming contracts read eligibility via a single storage call, eliminating costly 300k+ gas ZK-SNARK on-chain verifier execution.
+            </p>
           </motion.div>
         </motion.div>
 
-        {/* Consolidated Research & Open Source Foundation Card */}
+        {/* Consolidated Single Research Foundation Mention */}
         <motion.div
+          id="research-roots"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-6 rounded-3xl bg-white p-6 md:p-8 shadow-sm border border-purple-100"
+          className="mt-8 rounded-3xl bg-white p-6 md:p-8 shadow-sm border border-purple-100"
         >
-          <div className="flex flex-col items-start gap-6 md:flex-row md:items-center justify-between">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div className="md:w-3/4 space-y-3">
               <div className="inline-flex items-center gap-1.5 rounded-full bg-purple-100 px-3.5 py-1 text-xs font-bold text-purple-800 uppercase tracking-wider">
                 <Sparkles className="h-3.5 w-3.5 text-purple-700" />
-                Research Foundation
+                Foundational Cryptographic Lineage
               </div>
 
               <h3 className="text-xl font-bold md:text-2xl text-black">
-                Built on Proven Privacy & Verification Research
+                Backed by Multi-Year Applied Cryptography R&D
               </h3>
 
               <p className="text-sm text-gray-700 leading-relaxed">
-                zCred builds on years of hands-on research across zero-knowledge proofs, zkTLS, and privacy-preserving credential infrastructure. Our open-source work on ZAuth and NebulaID established the verification primitives that now underpin zCred Passport.
+                zCred is the culmination of multi-year applied research across zero-knowledge proof systems, zkTLS data-attestation, and sovereign identity. Foundational research from our early open-source initiatives—including the ZAuth Noir ZK CAPTCHA engine and Nebula ID sovereign identity primitives—directly informed zCred&apos;s dual-confidentiality hardware decision coprocessor architecture.
               </p>
 
-              <div className="pt-2 flex flex-wrap items-center gap-3">
-                <a
-                  href="https://zauth.zcred.xyz/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl bg-purple-700 px-5 py-2.5 text-xs font-bold text-white hover:bg-purple-800 transition-all shadow-sm"
-                >
-                  <BookOpen className="h-4 w-4 text-[#e4ff54]" />
-                  Learn More                  <ExternalLink className="h-3 w-3" />
-                </a>
-
-                <Link
-                  href="https://github.com/Zauth-HQ"
-                  target="_blank"
-                  className="inline-flex items-center gap-2 rounded-xl bg-black px-4 py-2.5 text-xs font-bold text-white hover:bg-black/80 transition-all"
-                >
-                  <Github className="h-4 w-4" />
-                  ZAuth Repositories
-                  <ExternalLink className="h-3 w-3" />
-                </Link>
-
-                <Link
-                  href="https://github.com/NebulaID"
-                  target="_blank"
-                  className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-xs font-bold text-black hover:bg-gray-50 transition-all"
-                >
-                  <Github className="h-4 w-4 text-purple-600" />
-                  NebulaID Repositories
-                  <ExternalLink className="h-3 w-3" />
-                </Link>
+              <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-medium text-gray-600">
+                <span className="flex items-center gap-1.5 text-black font-semibold">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+                  Zero Raw PII Persistence
+                </span>
+                <span>•</span>
+                <span>Client-Side Noir ZK Circuits</span>
+                <span>•</span>
+                <span>AWS Nitro Enclave Attestation</span>
+                <span>•</span>
+                <span>EIP-2612 Gasless Rails</span>
               </div>
             </div>
 
             <div className="flex w-full justify-center md:w-1/4">
-              <div className="relative h-32 w-36 rounded-2xl bg-gradient-to-br from-purple-50 to-purple-100 p-4 border border-purple-200 flex flex-col items-center justify-center text-center shadow-inner">
+              <div className="relative h-32 w-40 rounded-2xl bg-gradient-to-br from-purple-50 to-purple-100 p-4 border border-purple-200 flex flex-col items-center justify-center text-center shadow-inner">
                 <span className="text-3xl font-black text-purple-800">3+</span>
-                <span className="text-[10px] font-bold text-purple-900 uppercase tracking-wider mt-0.5">Years of R&D</span>
-                <span className="text-[9px] text-purple-700 font-semibold mt-1">ZK • zkTLS • Privacy</span>
+                <span className="text-xs font-bold text-purple-900 uppercase tracking-wider mt-0.5">Years of R&D</span>
+                <span className="text-[11px] text-purple-700 font-semibold mt-1">ZK • zkTLS • TEE</span>
               </div>
             </div>
           </div>
