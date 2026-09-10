@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { Calendar, Menu, X } from "lucide-react"
 import { MeetingModal } from "@/components/meeting-modal"
@@ -13,18 +14,13 @@ export function Navbar() {
     <>
       <header className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/90 backdrop-blur-md">
         <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8 max-w-7xl">
-
+          
           {/* Brand Logo */}
           <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl bg-purple-600 text-white font-bold text-lg">
-              z
+            <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl">
+              <Image src="/logo.png" alt="zCred" width={36} height={36} className="object-contain" />
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xl font-bold tracking-tight text-black">zCred</span>
-              <span className="rounded-full bg-purple-100 px-2.5 py-0.5 text-xs font-semibold text-purple-700">
-                Confidential Layer
-              </span>
-            </div>
+            <span className="text-xl font-bold tracking-tight text-black">zCred</span>
           </Link>
 
           {/* Navigation */}
@@ -32,14 +28,17 @@ export function Navbar() {
             <Link href="#platform" className="transition-colors hover:text-black">
               Platform
             </Link>
-            <Link href="#products" className="transition-colors hover:text-black">
-              Products
+            <Link href="#capabilities" className="transition-colors hover:text-black">
+              Capabilities
             </Link>
             <Link href="#security" className="transition-colors hover:text-black">
               Security
             </Link>
-            <Link href="#ecosystem" className="transition-colors hover:text-black">
-              Ecosystem
+            <Link href="#why-zcred" className="transition-colors hover:text-black">
+              Why zCred
+            </Link>
+            <Link href="#team" className="transition-colors hover:text-black">
+              Team
             </Link>
           </nav>
 
@@ -68,9 +67,10 @@ export function Navbar() {
           <div className="border-b border-gray-100 bg-white px-6 pb-6 pt-4 md:hidden">
             <nav className="flex flex-col gap-4 text-base font-medium text-gray-800">
               <Link href="#platform" onClick={() => setMobileMenuOpen(false)}>Platform</Link>
-              <Link href="#products" onClick={() => setMobileMenuOpen(false)}>Products</Link>
+              <Link href="#capabilities" onClick={() => setMobileMenuOpen(false)}>Capabilities</Link>
               <Link href="#security" onClick={() => setMobileMenuOpen(false)}>Security</Link>
-              <Link href="#ecosystem" onClick={() => setMobileMenuOpen(false)}>Ecosystem</Link>
+              <Link href="#why-zcred" onClick={() => setMobileMenuOpen(false)}>Why zCred</Link>
+              <Link href="#team" onClick={() => setMobileMenuOpen(false)}>Team</Link>
             </nav>
             <div className="mt-6 flex flex-col gap-3">
               <button
