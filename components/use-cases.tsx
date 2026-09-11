@@ -6,19 +6,19 @@ export default function UseCases() {
   const cases = [
     {
       title: "Confidential DeFi Underwriting",
-      description: "Underwrite institutional and undercollateralized loans on Noct Finance and Base money markets without exposing borrower PII.",
+      description: "Underwrite institutional and undercollateralized loans on Base money markets and lending pools without exposing borrower PII.",
       icon: TrendingUp,
       color: "from-blue-100 to-blue-200 text-blue-800",
     },
     {
       title: "Institutional Dark Pool Compliance",
-      description: "OFAC sanctions checks and KYC accreditation for shielded trading orderbooks on Layrs Lab and Horizen Private DEX.",
+      description: "OFAC sanctions checks and KYC accreditation for shielded trading orderbooks and institutional liquidity pools.",
       icon: Lock,
       color: "from-purple-100 to-purple-200 text-purple-800",
     },
     {
       title: "Autonomous AI Agent Passports",
-      description: "Hardware-attested agent identities, developer provenance, and HTTP 402 payment headers for Velum and m402.",
+      description: "Hardware-attested agent identities, developer provenance, and HTTP 402 payment headers for machine economies.",
       icon: Bot,
       color: "from-emerald-100 to-emerald-200 text-emerald-800",
     },

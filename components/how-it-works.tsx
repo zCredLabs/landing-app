@@ -3,10 +3,12 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { ShieldCheck, Cpu, Database, CheckCircle2, ArrowRight, Code2, Copy, Check } from "lucide-react"
+import { MeetingModal } from "@/components/meeting-modal"
 
 export function HowItWorks() {
   const [activeTab, setActiveTab] = useState<"solidity" | "typescript" | "rust">("solidity")
   const [copied, setCopied] = useState(false)
+  const [meetingModalOpen, setMeetingModalOpen] = useState(false)
 
   const steps = [
     {
@@ -44,56 +46,55 @@ pragma solidity ^0.8.20;
 
 import { IZcredRegistry } from "@zcred/contracts/IZcredRegistry.sol";
 
-contract LendingOrCompliancePool {
+contract PrivateDeFiOrComplianceApp {
     IZcredRegistry public immutable zcredRegistry;
-    bytes32 public constant CREDIT_POLICY_ID = keccak256("RISKX_CREDIT_TIER_V1");
+    bytes32 public constant CREDIT_POLICY_ID = keccak256("CONFIDENTIAL_CREDIT_TIER_V1");
 
-    // 1-line confidential eligibility check
-    function executeAction(bytes32 borrowerNullifier, uint256 amount) external {
+    // 1-line confidential eligibility check (<26k gas)
+    function executeAction(bytes32 domainNullifier, uint256 amount) external {
         require(
-            zcredRegistry.isEligible(borrowerNullifier, CREDIT_POLICY_ID, 2), // Tier AA+
-            "zCred: Ineligible risk tier"
+            zcredRegistry.isEligible(domainNullifier, CREDIT_POLICY_ID, 2), // Verified Tier
+            "zCred: Ineligible attestation tier"
         );
         
-        // Execute undercollateralized borrow or shielded trade safely
+        // Execute undercollateralized borrow or shielded order safely
         _processAction(msg.sender, amount);
     }
 }`,
     typescript: `import { ZcredClient } from "@zcred/sdk";
 
-// Initialize zCred client for Base Sepolia / Horizen testnet
+// Initialize zCred client on EVM testnet
 const zcred = new ZcredClient({ 
   chain: "base-sepolia",
-  registryAddress: "0x7cA80353c56CeBc0BaA14e1aEbFE976edAD8185e"
+  rpcUrl: process.env.RPC_URL
 });
 
-// Deterministically derive P-521 key from Ethereum wallet signer
+// Request confidential hardware attestation
 const attestation = await zcred.requestAttestation({
-  policyId: "RISKX_CREDIT_TIER_V1",
-  domain: "noct.finance",
-  zkClaim: encryptedBankSignal,
+  policyId: "CONFIDENTIAL_CREDIT_TIER_V1",
+  domain: "app.partner.xyz",
+  zkClaim: encryptedClientSignal,
 });
 
-console.log("Attested Tier:", attestation.tier); // e.g. "AAA"
-console.log("Domain Nullifier:", attestation.nullifier);`,
-    rust: `// zCred Enclave Policy Kernel (Rust -> wasm32-unknown-unknown)
-#[no_mangle]
-pub extern "C" fn evaluate_riskx_policy(
-    encrypted_payload_ptr: *const u8,
-    len: usize
-) -> *const u8 {
-    let payload = decrypt_p521_payload(encrypted_payload_ptr, len)?;
-    let cashflow_score = compute_riskx_score(&payload.cashflows);
+console.log("Attested Eligibility:", attestation.isEligible);
+console.log("Domain-Bound Nullifier:", attestation.nullifier);`,
+    rust: `// zCred Enclave Policy Kernel (Hardware-Sealed TEE)
+// Code executes exclusively inside isolated AWS Nitro Enclaves.
+// Proprietary risk weights & compliance rules remain fully encrypted in memory.
+
+#[zcred_enclave::policy]
+pub fn evaluate_confidential_policy(
+    ctx: &EnclaveContext,
+    signal: EncryptedSignal
+) -> AttestationResult {
+    // 1. Verify client-side zkTLS cryptographic signature
+    let verified_claim = ctx.verify_zk_signal(&signal)?;
     
-    let tier = match cashflow_score {
-        s if s >= 800 => RiskTier::AAA,
-        s if s >= 720 => RiskTier::AA,
-        s if s >= 650 => RiskTier::A,
-        _ => RiskTier::Ineligible,
-    };
+    // 2. Evaluate proprietary risk/compliance criteria in sealed memory
+    let is_eligible = evaluate_internal_criteria(&verified_claim);
     
-    // Hardware-attested event emission (zero balance custody)
-    emit_attestation_event(payload.nullifier, tier)
+    // 3. Emit hardware-signed attestation with domain-bound nullifier
+    ctx.issue_attestation(signal.derive_nullifier(), is_eligible)
 }`,
   }
 
@@ -242,9 +243,27 @@ pub extern "C" fn evaluate_riskx_policy(
               Contract gas cost: &lt; 26,000 gas (1 storage read)
             </div>
           </div>
+
+          {/* Gated SDK Access Callout for Controlled Disclosure */}
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl bg-purple-950/60 border border-purple-800/60 p-4 px-6 text-xs">
+            <div className="flex items-center gap-3">
+              <span className="flex h-2 w-2 rounded-full bg-[#e4ff54] animate-pulse"></span>
+              <span className="text-slate-300">
+                Full Rust WASM Enclave SDK, ABI definitions & devnet sandbox access are reserved for accredited partners under <strong className="text-white">Partner Integration</strong>.
+              </span>
+            </div>
+            <button
+              onClick={() => setMeetingModalOpen(true)}
+              className="flex-shrink-0 rounded-xl bg-[#e4ff54] px-4 py-2 text-xs font-bold text-black hover:bg-[#d8f547] transition-all shadow-sm"
+            >
+              Request SDK Access →
+            </button>
+          </div>
         </div>
 
       </div>
+
+      <MeetingModal open={meetingModalOpen} onOpenChange={setMeetingModalOpen} />
     </section>
   )
 }

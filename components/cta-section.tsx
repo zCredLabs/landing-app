@@ -14,7 +14,7 @@ export function CTASection() {
           <div className="rounded-3xl bg-slate-950 p-8 sm:p-14 text-white shadow-xl relative overflow-hidden border border-slate-800">
             
             <span className="inline-block rounded-full bg-[#e4ff54] px-4 py-1 text-xs font-black text-black mb-4 uppercase tracking-wider">
-              Integration & Ecosystem Access
+              Partner & Integration Access
             </span>
 
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl max-w-2xl mx-auto">
@@ -22,7 +22,7 @@ export function CTASection() {
             </h2>
 
             <p className="mx-auto mt-4 max-w-xl text-base text-slate-300 leading-relaxed">
-              Whether you are building DeFi lending protocols, institutional compliance rails, or autonomous AI agents, empower your application with zCred&apos;s confidential decision engine.
+              zCred is currently onboarding select design partners across DeFi lending, institutional compliance, and autonomous AI agents.
             </p>
 
             <div className="mt-8 flex flex-wrap justify-center gap-4">
