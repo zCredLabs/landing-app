@@ -16,34 +16,23 @@ export function Navbar() {
         <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8 max-w-7xl">
           
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl">
-              <Image src="/logo.png" alt="zCred" width={36} height={36} className="object-contain" />
-            </div>
-            <span className="text-xl font-bold tracking-tight text-black">zCred</span>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl">
+                <Image src="/logo.png" alt="zCred" width={36} height={36} className="object-contain" />
+              </div>
+              <span className="text-xl font-bold tracking-tight text-black">zCred</span>
+            </Link>
+          </div>
 
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
-            <Link href="#platform" className="transition-colors hover:text-black">
-              Platform
-            </Link>
-            <Link href="#capabilities" className="transition-colors hover:text-black">
-              Capabilities
-            </Link>
-            <Link href="#security" className="transition-colors hover:text-black">
-              Security
-            </Link>
-            <Link href="#why-zcred" className="transition-colors hover:text-black">
-              Why zCred
-            </Link>
-            <Link href="#team" className="transition-colors hover:text-black">
-              Team
-            </Link>
-          </nav>
+          {/* Institutional Selection Badge */}
+          <div className="hidden md:flex items-center gap-2 rounded-full border border-purple-200 bg-purple-50/80 px-3.5 py-1 text-xs font-semibold text-purple-900">
+            <span className="h-1.5 w-1.5 rounded-full bg-purple-600 animate-pulse"></span>
+            Selected for Horizen Acceleration Season
+          </div>
 
           {/* Action Button */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => setMeetingModalOpen(true)}
               className="inline-flex items-center gap-2 rounded-xl bg-black px-5 py-2.5 text-xs font-semibold text-white transition-all hover:bg-black/90 shadow-sm"
@@ -52,40 +41,7 @@ export function Navbar() {
               Schedule a Meeting
             </button>
           </div>
-
-          {/* Mobile menu trigger */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 text-black md:hidden"
-          >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
         </div>
-
-        {/* Mobile Dropdown */}
-        {mobileMenuOpen && (
-          <div className="border-b border-gray-100 bg-white px-6 pb-6 pt-4 md:hidden">
-            <nav className="flex flex-col gap-4 text-base font-medium text-gray-800">
-              <Link href="#platform" onClick={() => setMobileMenuOpen(false)}>Platform</Link>
-              <Link href="#capabilities" onClick={() => setMobileMenuOpen(false)}>Capabilities</Link>
-              <Link href="#security" onClick={() => setMobileMenuOpen(false)}>Security</Link>
-              <Link href="#why-zcred" onClick={() => setMobileMenuOpen(false)}>Why zCred</Link>
-              <Link href="#team" onClick={() => setMobileMenuOpen(false)}>Team</Link>
-            </nav>
-            <div className="mt-6 flex flex-col gap-3">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false)
-                  setMeetingModalOpen(true)
-                }}
-                className="flex items-center justify-center gap-2 rounded-xl bg-black py-3 text-sm font-semibold text-white"
-              >
-                <Calendar className="h-4 w-4" />
-                Schedule a Meeting
-              </button>
-            </div>
-          </div>
-        )}
       </header>
 
       {/* Meeting Modal */}
