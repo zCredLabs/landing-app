@@ -1,12 +1,14 @@
 {
-  "name": "my-v0-project",
+  "name": "zcred-landing",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "agent:brief": "node scripts/agent-brief.js",
+    "agent:apa": "node scripts/agent-brief.js --apa-only"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",

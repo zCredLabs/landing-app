@@ -7,7 +7,7 @@ export function Footer() {
   return (
     <footer className="border-t border-gray-100 bg-white py-8 text-xs text-gray-500">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl flex flex-col md:flex-row items-center justify-between gap-6">
-        
+
         {/* Brand & Category */}
         <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
           <div className="flex items-center gap-2.5">
@@ -28,6 +28,7 @@ export function Footer() {
           <span className="text-gray-200">•</span>
           <span>© {new Date().getFullYear()} zCred Protocol</span>
         </div>
+
 
       </div>
     </footer>

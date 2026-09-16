@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Calendar, Menu, X } from "lucide-react"
+import { Calendar, Menu, X, FileText } from "lucide-react"
 import { MeetingModal } from "@/components/meeting-modal"
 
 export function Navbar() {
@@ -14,7 +14,7 @@ export function Navbar() {
     <>
       <header className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/90 backdrop-blur-md">
         <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8 max-w-7xl">
-          
+
           {/* Brand Logo */}
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-3">
@@ -35,7 +35,7 @@ export function Navbar() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMeetingModalOpen(true)}
-              className="inline-flex items-center gap-2 rounded-xl bg-black px-5 py-2.5 text-xs font-semibold text-white transition-all hover:bg-black/90 shadow-sm"
+              className="inline-flex items-center gap-2 rounded-xl bg-black px-4 sm:px-5 py-2.5 text-xs font-semibold text-white transition-all hover:bg-black/90 shadow-sm cursor-pointer"
             >
               <Calendar className="h-3.5 w-3.5" />
               Schedule a Meeting
