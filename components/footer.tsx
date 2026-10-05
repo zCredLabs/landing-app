@@ -17,7 +17,7 @@ const COLUMNS = [
     links: [
       { label: "Integration", href: "/#developers" },
       { label: "Whitepaper", href: "/apa-brief" },
-      { label: "GitHub", href: "https://github.com/zcred-protocol" },
+      { label: "GitHub", href: "https://github.com/zcredlabs" },
       { label: "llms.txt", href: "/llms.txt" },
     ],
   },
@@ -46,12 +46,12 @@ export function Footer() {
               The confidential decision layer for identity and compliance. Built on Horizen Vela and Base.
             </p>
             <a
-              href="https://x.com/zcred_org"
+              href="https://x.com/zCredLabs"
               target="_blank"
               rel="noreferrer"
               className="mt-5 inline-block text-sm font-medium text-slate-700 hover:text-slate-950"
             >
-              @zcred_org on X
+              @zCredLabs on X
             </a>
           </div>
 

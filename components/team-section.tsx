@@ -9,13 +9,13 @@ export function TeamSection() {
       name: "Shikhar Singh",
       role: "Founder & Core Architect",
       bio: "Focusing on zero-knowledge proof systems, zkTLS data-ingestion primitives, and confidential computing architecture with hardware TEE enclaves.",
-      twitter: "https://x.com/zcred_org",
+      twitter: "https://x.com/zCredLabs",
     },
     {
       name: "zCred Cryptography & Systems Team",
       role: "Enclave & Protocol Engineers",
       bio: "Engineering team specializing in Rust WASM enclave runtimes, AWS Nitro TEE verification ceremonies, and gas-efficient EVM attestation settlement.",
-      twitter: "https://x.com/zcred_org",
+      twitter: "https://x.com/zCredLabs",
     },
   ]
 
@@ -102,7 +102,7 @@ export function TeamSection() {
               <div className="pt-4 border-t border-gray-100 flex items-center gap-4 text-gray-600 text-xs font-medium">
                 {member.twitter && (
                   <a href={member.twitter} target="_blank" rel="noreferrer" className="hover:text-black transition-colors flex items-center gap-1.5">
-                    <Twitter className="h-4 w-4" /> @zcred_org
+                    <Twitter className="h-4 w-4" /> @zCredLabs
                   </a>
                 )}
               </div>

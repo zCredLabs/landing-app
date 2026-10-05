@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description"
+        content="zCred: Private evidence. Onchain decisions. Confidential compliance decisions for institutions moving programs and assets to Web3." />
+    <title>zCred — Private Evidence. Onchain Decisions.</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --paper: #f7f6fb;
+            --paper-deep: #eeeaf7;
+            --surface: #ffffff;
+            --surface-soft: #f3f0fb;
+            --ink: #1c182b;
+            --ink-2: #3c3552;
+            --muted: #5e586e;
+            --line: #e3deed;
+            --line-strong: #d0c8df;
+
+            --accent: #6f3fde;
+            --accent-dark: #532cb8;
+            --accent-soft: #ede7ff;
+
+            --cyan: #0284c7;
+            --cyan-soft: #e0f2fe;
+
+            --emerald: #15803d;
+            --emerald-soft: #dcfce7;
+
+            --amber: #b45309;
+            --amber-soft: #fef3c7;
+
+            --coral: #dc2626;
+            --coral-soft: #fee2e2;
+
+            --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            --speed: 180ms;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        a {
+            color: var(--accent-dark);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .deck-app {
+            position: relative;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            background:
+                radial-gradient(ellipse at 92% 8%, rgba(216, 203, 252, .38), transparent 38%),
+                radial-gradient(ellipse at 8% 92%, rgba(224, 242, 254, .32), transparent 38%),
+                linear-gradient(145deg, #fdfcff 0%, var(--paper) 60%, #f0edfa 100%);
+        }
+
+        /* Top Progress Bar */
+        .progress-bar-track {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(111, 63, 222, 0.08);
+            z-index: 100;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 9.09%;
+            background: linear-gradient(90deg, var(--accent), var(--cyan));
+            transition: width var(--speed) ease;
+        }
+
+        /* Slide Indicator */
+        .slide-indicator {
+            position: fixed;
+            top: 18px;
+            right: 28px;
+            z-index: 90;
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.94);
+            border: 1px solid rgba(208, 200, 223, 0.8);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 4px 16px rgba(50, 32, 95, 0.06);
+            user-select: none;
+        }
+
+        .slide-counter {
+            font-family: var(--mono);
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--ink-2);
+            letter-spacing: .08em;
+        }
+
+        /* Stage */
+        .stage {
+            position: relative;
+            flex: 1 1 auto;
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+
+        .stage::-webkit-scrollbar {
+            display: none;
+        }
+
+        .slide {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            min-height: 100vh;
+            max-height: 100vh;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: stretch;
+            padding: 5vh 5vw; /* Exactly 5% default outer padding on all 4 sides (16:9 canvas) */
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .slide-inner {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            margin: 0;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: clamp(14px, 1.8vh, 24px);
+            box-sizing: border-box;
+        }
+
+        .slide-inner.cover-minimal {
+            max-width: 100%;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .slide-head {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent-dark);
+            font-family: var(--mono);
+            font-size: clamp(16px, 1.15vw, 18.5px);
+            font-weight: 850;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            width: 24px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            content: "";
+        }
+
+        h1 {
+            max-width: 18ch;
+            font-size: clamp(76px, 7vw, 115px);
+            font-weight: 850;
+            letter-spacing: -.052em;
+            line-height: .95;
+            color: var(--ink);
+        }
+
+        h2 {
+            max-width: 32ch;
+            font-size: clamp(42px, 4.4vw, 62px);
+            font-weight: 850;
+            letter-spacing: -.042em;
+            line-height: 1.08;
+            color: var(--ink);
+            text-wrap: balance;
+        }
+
+        h3 {
+            font-size: clamp(26px, 2.1vw, 34px);
+            font-weight: 850;
+            letter-spacing: -.03em;
+            line-height: 1.2;
+            color: var(--ink);
+        }
+
+        .sub-punch {
+            color: var(--ink-2);
+            font-size: clamp(20px, 1.55vw, 24px);
+            font-weight: 650;
+            line-height: 1.45;
+        }
+
+        .accent {
+            color: var(--accent);
+        }
+
+        /* Grids */
+        .two-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: clamp(20px, 2.5vw, 36px);
+            align-items: stretch;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+
+        .three-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: clamp(18px, 2vw, 28px);
+            align-items: stretch;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+
+        .traction-layout {
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            gap: clamp(20px, 2.5vw, 36px);
+            align-items: stretch;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+
+        /* Cards */
+        .card {
+            min-width: 0;
+            padding: clamp(20px, 2vw, 32px);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, .96);
+            box-shadow: 0 8px 24px rgba(50, 32, 95, .04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 12px;
+            box-sizing: border-box;
+        }
+
+        .card.diagram-card {
+            flex: 1 1 auto;
+            min-height: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(18px, 2.2vh, 32px) clamp(24px, 2.5vw, 44px);
+        }
+
+        .card.diagram-card svg {
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+            display: block;
+        }
+
+        .card.highlight {
+            border-color: #c7b6f3;
+            background: linear-gradient(145deg, #f7f2ff, #ffffff);
+            box-shadow: 0 10px 28px rgba(111, 63, 222, .08);
+        }
+
+        .iso-card-3d {
+            background: linear-gradient(145deg, #ffffff 0%, #f5f0ff 100%);
+            border: 1px solid #cbbcf3;
+            box-shadow:
+                0 14px 32px rgba(83, 44, 184, 0.09),
+                0 3px 0 #d5c8f7;
+        }
+
+        .step-num {
+            font-family: var(--mono);
+            font-size: 16.5px;
+            font-weight: 900;
+            color: var(--accent);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .stat {
+            display: block;
+            color: var(--accent-dark);
+            font-size: clamp(44px, 4.4vw, 62px);
+            font-weight: 950;
+            letter-spacing: -.05em;
+            line-height: 1.05;
+        }
+
+        /* Cover Logo */
+        .cover-logo-line {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .cover-logo {
+            width: 76px;
+            height: 76px;
+            border-radius: 18px;
+            object-fit: cover;
+            box-shadow: 0 8px 22px rgba(80, 48, 160, .18);
+        }
+
+        .cover-wordmark {
+            font-size: 48px;
+            font-weight: 850;
+            letter-spacing: -.05em;
+            color: var(--ink);
+        }
+
+        .cover-footer {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--line-strong);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 18.5px;
+            font-weight: 750;
+            color: var(--muted);
+        }
+
+        /* Positioning Table for Slide 8 */
+        .comp-table {
+            width: 100%;
+            flex: 1 1 auto;
+            min-height: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--surface);
+            border-radius: 20px;
+            border: 1px solid var(--line-strong);
+            overflow: hidden;
+            box-shadow: 0 10px 28px rgba(50, 32, 95, .05);
+        }
+
+        .comp-table th,
+        .comp-table td {
+            padding: clamp(18px, 2.4vh, 28px) clamp(20px, 1.8vw, 28px);
+            text-align: left;
+            border-bottom: 1px solid var(--line);
+            font-size: clamp(19.5px, 1.4vw, 23.5px);
+            line-height: 1.4;
+        }
+
+        .comp-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comp-table th {
+            font-family: var(--mono);
+            font-size: 16.5px;
+            font-weight: 850;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--ink-2);
+            background: var(--surface-soft);
+        }
+
+        .comp-table th.zcred-col {
+            background: var(--accent);
+            color: #ffffff;
+        }
+
+        .comp-table td.zcred-col {
+            background: rgba(237, 231, 255, 0.45);
+            font-weight: 800;
+            color: var(--emerald);
+        }
+
+        /* Hero Code Receipt on Traction */
+        .receipt-hero {
+            padding: 22px 26px;
+            border-radius: 18px;
+            background: #171326;
+            color: #e2e8f0;
+            font-family: var(--mono);
+            font-size: clamp(18.5px, 1.35vw, 22px);
+            line-height: 1.6;
+            border: 1px solid #352d54;
+            box-shadow: 0 12px 28px rgba(23, 19, 38, 0.16);
+        }
+
+        /* Team Photo Box */
+        .team-photo-wrap {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .team-photo-box {
+            width: 88px;
+            height: 88px;
+            border-radius: 18px;
+            border: 2px dashed #c0b0ec;
+            background: var(--surface-soft);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .team-photo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .team-photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 850;
+            color: var(--accent);
+            background: linear-gradient(135deg, rgba(237, 231, 255, 0.75), rgba(255, 255, 255, 0.95));
+        }
+
+        .exp-badge {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: var(--surface-soft);
+            border: 1px solid var(--line-strong);
+            font-family: var(--mono);
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        .definition-banner {
+            padding: 16px 26px;
+            border-radius: 16px;
+            background: var(--surface);
+            border: 1px solid #c7b6f3;
+            font-family: var(--mono);
+            font-size: clamp(19.5px, 1.45vw, 23.5px);
+            font-weight: 800;
+            color: var(--ink);
+            text-align: center;
+        }
+
+        .footer-note {
+            font-family: var(--mono);
+            font-size: clamp(17.5px, 1.25vw, 20px);
+            font-weight: 750;
+            color: var(--ink-2);
+            text-align: center;
+        }
+
+        /* QR Code Card Styles for Slide 12 */
+        .qr-box {
+            width: clamp(170px, 19vh, 215px);
+            height: clamp(170px, 19vh, 215px);
+            border-radius: 20px;
+            background: #ffffff;
+            border: 2px solid var(--line-strong);
+            box-shadow: 0 10px 26px rgba(50, 32, 95, 0.08);
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 8px auto;
+        }
+
+        .qr-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        @media print {
+            @page {
+                size: 13.333in 7.5in;
+                margin: 0;
+            }
+
+            html,
+            body {
+                width: 100%;
+                height: auto;
+                overflow: visible;
+                background: var(--paper) !important;
+            }
+
+            .progress-bar-track,
+            .slide-indicator {
+                display: none !important;
+            }
+
+            .stage {
+                height: auto;
+                overflow: visible;
+            }
+
+            .slide {
+                position: relative !important;
+                display: flex !important;
+                height: 7.5in !important;
+                min-height: 7.5in !important;
+                padding: .35in .55in .28in !important;
+                page-break-after: always;
+                break-after: page;
+            }
+        }
+
+        @media (max-width: 900px) {
+
+            .two-grid,
+            .three-grid,
+            .traction-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="deck-app">
+        <div class="progress-bar-track" aria-hidden="true">
+            <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+
+        <div class="slide-indicator" aria-label="Slide Indicator">
+            <span class="slide-counter" id="slideCounter" aria-live="polite">01 / 11</span>
+        </div>
+
+        <main class="stage" id="slideStage">
+
+            <!-- SLIDE 1: COVER -->
+            <section class="slide active" data-index="1">
+                <div class="slide-inner cover-minimal">
+                    <div class="cover-logo-line">
+                        <img class="cover-logo" src="../../../landing-page/public/logo.png" alt="zCred logo"
+                            onerror="this.style.display='none';" />
+                        <span class="cover-wordmark">zCred</span>
+                    </div>
+
+                    <h1>Private evidence.<br /><span class="accent">Onchain decisions.</span></h1>
+
+                    <p class="sub-punch"
+                        style="font-size:clamp(26px, 2.5vw, 36px); max-width:34ch; color:var(--ink-2); line-height:1.35;">
+                        Confidential compliance decisions for institutions moving programs and assets to Web3.
+                    </p>
+
+                    <div class="cover-footer">
+                        <span>zcred.xyz · October 2026</span>
+                        <span>Shikhar Singh &amp; 0xKryptonion</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: PROBLEM (SVG DIAGRAM 1: THE TRUST GAP) -->
+            <section class="slide" data-index="2">
+                <div class="slide-inner">
+                    <div class="slide-head">
+                        <div class="eyebrow">Problem</div>
+                        <h2>Applications need the decision—not the documents.</h2>
+                    </div>
+
+                    <div class="card iso-card-3d diagram-card">
+                        <svg viewBox="0 0 1280 440" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+                            <g transform="translate(20, 15)">
+                                <rect width="430" height="410" rx="22" fill="#ffffff" stroke="#0284c7"
+                                    stroke-width="3" />
+                                <rect x="28" y="24" width="220" height="42" rx="10" fill="#e0f2fe" />
+                                <text x="138" y="52" text-anchor="middle" font-family="monospace" font-weight="900"
+                                    font-size="18" fill="#0369a1">PRIVATE SYSTEMS</text>
+                                <text x="32" y="145" font-family="sans-serif" font-weight="900" font-size="30"
+                                    fill="#1c182b">• Identity records</text>
+                                <text x="32" y="240" font-family="sans-serif" font-weight="900" font-size="30"
+                                    fill="#1c182b">• Organizational records</text>
+                                <text x="32" y="335" font-family="sans-serif" font-weight="900" font-size="30"
+                                    fill="#1c182b">• Financial evidence</text>
+                            </g>
+
+                            <line x1="450" y1="220" x2="490" y2="220" stroke="#dc2626" stroke-width="5"
+                                stroke-dasharray="10 8" />
+                            <rect x="490" y="140" width="300" height="160" rx="20" fill="#fee2e2" stroke="#dc2626"
+                                stroke-width="3" />
+                            <text x="640" y="205" text-anchor="middle" font-family="sans-serif" font-weight="900"
+                                font-size="22" fill="#dc2626">Who verifies the rule—</text>
+                            <text x="640" y="245" text-anchor="middle" font-family="sans-serif" font-weight="900"
+                                font-size="22" fill="#1c182b">and what can the app trust?</text>
+                            <line x1="790" y1="220" x2="830" y2="220" stroke="#dc2626" stroke-width="5"
+                                stroke-dasharray="10 8" />
+
+                            <g transform="translate(830, 15)">
+                                <rect width="430" height="410" rx="22" fill="#ffffff" stroke="#6f3fde"
+                                    stroke-width="3" />
+                                <rect x="28" y="24" width="260" height="42" rx="10" fill="#ede7ff" />
+                                <text x="158" y="52" text-anchor="middle" font-family="monospace" font-weight="900"
+                                    font-size="18" fill="#532cb8">PUBLIC APPLICATIONS</text>
+                                <text x="32" y="145" font-family="sans-serif" font-weight="900" font-size="30"
+                                    fill="#1c182b">• Eligibility gates</text>
+                                <text x="32" y="240" font-family="sans-serif" font-weight="900" font-size="30"
+                                    fill="#1c182b">• Subscription rules</text>
+                                <text x="32" y="335" font-family="sans-serif" font-weight="900" font-size="30"
+                                    fill="#1c182b">• Program access</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <p class="footer-note">Today: repeated document collection and manual approvals.</p>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: REPEATED ONBOARDING (SVG DIAGRAM 2: SILOS) -->
+            <section class="slide" data-index="3">
+                <div class="slide-inner">
+                    <div class="slide-head">
+                        <div class="eyebrow">Repeated Onboarding</div>
+                        <h2>Every new application repeats the same review.</h2>
+                    </div>
+
+                    <div class="card diagram-card">
+                        <svg viewBox="0 0 1280 440" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+                            <g transform="translate(20, 60)">
+                                <rect width="360" height="320" rx="22" fill="#f3f0fb" stroke="#6f3fde"
+                                    stroke-width="3" />
+                                <text x="180" y="145" text-anchor="middle" font-family="sans-serif" font-weight="900"
+                                    font-size="34" fill="#1c182b">One Organization</text>
+                                <text x="180" y="200" text-anchor="middle" font-family="sans-serif" font-weight="750"
+                                    font-size="22" fill="#5e586e">Private offchain records</text>
+                            </g>
+
+                            <line x1="380" y1="160" x2="490" y2="70" stroke="#dc2626" stroke-width="4.5" />
+                            <line x1="380" y1="220" x2="490" y2="220" stroke="#dc2626" stroke-width="4.5" />
+                            <line x1="380" y1="280" x2="490" y2="370" stroke="#dc2626" stroke-width="4.5" />
+
+                            <g transform="translate(490, 15)">
+                                <rect width="770" height="110" rx="18" fill="#ffffff" stroke="#e3deed"
+                                    stroke-width="2.5" />
+                                <text x="32" y="66" font-family="sans-serif" font-weight="900" font-size="28"
+                                    fill="#1c182b">Program A</text>
+                                <text x="215" y="66" font-family="monospace" font-weight="850" font-size="20"
+                                    fill="#b45309">→ Requests files · Runs review · Stores documents</text>
+                            </g>
+
+                            <g transform="translate(490, 165)">
+                                <rect width="770" height="110" rx="18" fill="#ffffff" stroke="#e3deed"
+                                    stroke-width="2.5" />
+                                <text x="32" y="66" font-family="sans-serif" font-weight="900" font-size="28"
+                                    fill="#1c182b">Issuer B</text>
+                                <text x="215" y="66" font-family="monospace" font-weight="850" font-size="20"
+                                    fill="#b45309">→ Requests files · Runs review · Stores documents</text>
+                            </g>
+
+                            <g transform="translate(490, 315)">
+                                <rect width="770" height="110" rx="18" fill="#ffffff" stroke="#e3deed"
+                                    stroke-width="2.5" />
+                                <text x="32" y="66" font-family="sans-serif" font-weight="900" font-size="28"
+                                    fill="#1c182b">Platform C</text>
+                                <text x="215" y="66" font-family="monospace" font-weight="850" font-size="20"
+                                    fill="#b45309">→ Requests files · Runs review · Stores documents</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <p class="footer-note">Illustrative workflow: each application collects and stores sensitive files separately.</p>
+                </div>
+            </section>
+
+            <!-- SLIDE 4: PRODUCT (SVG DIAGRAM 3: THE ZCRED HANDOFF) -->
+            <section class="slide" data-index="4">
+                <div class="slide-inner">
+                    <div class="slide-head">
+                        <div class="eyebrow">How zCred Works</div>
+                        <h2>Evaluate privately. Issue a decision. Verify onchain.</h2>
+                    </div>
+
+                    <div class="card iso-card-3d diagram-card">
+                        <svg viewBox="0 0 1300 420" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+                            <rect x="10" y="10" width="620" height="400" rx="22" fill="rgba(2, 132, 199, 0.04)"
+                                stroke="#0284c7" stroke-width="3" stroke-dasharray="8 6" />
+                            <text x="320" y="46" text-anchor="middle" font-family="monospace" font-size="18"
+                                font-weight="900" fill="#0369a1" letter-spacing="0.04em">PRIVATE BOUNDARY · RECORDS STAY OFFCHAIN</text>
+
+                            <g transform="translate(26, 70)">
+                                 <rect width="265" height="320" rx="18" fill="#ffffff" stroke="#cbd5e1"
+                                     stroke-width="2.5" />
+                                 <text x="22" y="65" font-family="sans-serif" font-weight="900" font-size="24"
+                                     fill="#1c182b">1. Evidence Source</text>
+                                 <text x="22" y="150" font-family="sans-serif" font-weight="750" font-size="19"
+                                     fill="#5e586e">Approved offchain data</text>
+                                 <text x="22" y="250" font-family="monospace" font-weight="900" font-size="17"
+                                     fill="#0284c7">Authenticated input</text>
+                            </g>
+
+                            <line x1="291" y1="230" x2="335" y2="230" stroke="#6f3fde" stroke-width="4.5" />
+                            <polygon points="335,223 345,230 335,237" fill="#6f3fde" />
+
+                            <g transform="translate(345, 70)">
+                                <rect width="265" height="320" rx="18" fill="#532cb8" stroke="#3b1d8f"
+                                    stroke-width="2.5" />
+                                <text x="22" y="65" font-family="sans-serif" font-weight="900" font-size="24"
+                                    fill="#ffffff">2. Private Evaluation</text>
+                                <text x="22" y="150" font-family="sans-serif" font-weight="750" font-size="19"
+                                    fill="#ede7ff">Institution defines rule</text>
+                                <text x="22" y="250" font-family="monospace" font-weight="900" font-size="17"
+                                    fill="#86efac">Isolated policy check</text>
+                            </g>
+
+                            <line x1="630" y1="230" x2="660" y2="230" stroke="#15803d" stroke-width="5" />
+                            <polygon points="660,222 670,230 660,238" fill="#15803d" />
+
+                            <rect x="670" y="10" width="620" height="400" rx="22" fill="rgba(21, 128, 61, 0.04)"
+                                stroke="#15803d" stroke-width="3" stroke-dasharray="8 6" />
+                            <text x="980" y="46" text-anchor="middle" font-family="monospace" font-size="18"
+                                font-weight="900" fill="#15803d" letter-spacing="0.04em">ONCHAIN BOUNDARY · VERIFIABLE METADATA</text>
+
+                            <g transform="translate(686, 70)">
+                                <rect width="265" height="320" rx="18" fill="#ffffff" stroke="#86efac"
+                                    stroke-width="3" />
+                                <text x="22" y="65" font-family="sans-serif" font-weight="900" font-size="24"
+                                    fill="#1c182b">3. Signed Decision</text>
+                                <text x="22" y="150" font-family="sans-serif" font-weight="750" font-size="19"
+                                    fill="#5e586e">Outcome, policy &amp; expiry</text>
+                                <text x="22" y="250" font-family="monospace" font-weight="900" font-size="17"
+                                    fill="#15803d">Onchain registry</text>
+                            </g>
+
+                            <line x1="951" y1="230" x2="995" y2="230" stroke="#15803d" stroke-width="4.5" />
+                            <polygon points="995,223 1005,230 995,237" fill="#15803d" />
+
+                            <g transform="translate(1005, 70)">
+                                <rect width="265" height="320" rx="18" fill="#ffffff" stroke="#cbd5e1"
+                                    stroke-width="2.5" />
+                                <text x="22" y="65" font-family="sans-serif" font-weight="900" font-size="24"
+                                    fill="#1c182b">4. Application Gate</text>
+                                <text x="22" y="150" font-family="sans-serif" font-weight="750" font-size="19"
+                                    fill="#5e586e">Checks decision status</text>
+                                <text x="22" y="250" font-family="monospace" font-weight="900" font-size="17"
+                                    fill="#532cb8">Allows or blocks access</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div class="definition-banner">
+                        Applications verify a decision without receiving the underlying records.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: WHY NOW (SVG DIAGRAM 4: SEPARATE SCOPES WITHOUT MISLEADING ARROW) -->
+            <section class="slide" data-index="5">
+                <div class="slide-inner">
+                    <div class="slide-head">
+                        <div class="eyebrow">Why Now</div>
+                        <h2>Onchain programs still depend on offchain evidence.</h2>
+                    </div>
+
+                    <div class="card diagram-card">
+                        <svg viewBox="0 0 1280 410" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+                            <!-- Panel 1: Public Sector & Enterprise -->
+                            <g transform="translate(15, 15)">
+                                <rect width="395" height="380" rx="22" fill="#f0f9ff" stroke="#0284c7"
+                                    stroke-width="3" />
+                                <text x="28" y="52" font-family="monospace" font-weight="900" font-size="17"
+                                    fill="#0369a1">1 · INSTITUTIONAL REGISTRIES</text>
+                                <text x="28" y="120" font-family="sans-serif" font-weight="950" font-size="36"
+                                    fill="#1c182b">Public &amp; Enterprise</text>
+                                <text x="28" y="185" font-family="sans-serif" font-weight="650" font-size="21"
+                                    fill="#3c3552">Government, development, and</text>
+                                <text x="28" y="222" font-family="sans-serif" font-weight="650" font-size="21"
+                                    fill="#3c3552">enterprise Web3 programs requiring</text>
+                                <text x="28" y="259" font-family="sans-serif" font-weight="650" font-size="21"
+                                    fill="#3c3552">offchain organizational verification.</text>
+                            </g>
+
+                            <!-- Panel 2: Current Onchain Activity -->
+                            <g transform="translate(442, 15)">
+                                <rect width="395" height="380" rx="22" fill="#f7f2ff" stroke="#6f3fde"
+                                    stroke-width="3" />
+                                <text x="28" y="52" font-family="monospace" font-weight="900" font-size="17"
+                                    fill="#532cb8">2 · CURRENT ONCHAIN ACTIVITY</text>
+                                <text x="28" y="132" font-family="sans-serif" font-weight="950" font-size="60"
+                                    fill="#532cb8">~$39.2B</text>
+                                <text x="28" y="195" font-family="sans-serif" font-weight="650" font-size="21"
+                                    fill="#3c3552">Distributed asset value live</text>
+                                <text x="28" y="232" font-family="sans-serif" font-weight="650" font-size="21"
+                                    fill="#3c3552">today across tracked RWA</text>
+                                <text x="28" y="325" font-family="monospace" font-weight="850" font-size="17"
+                                    fill="#5e586e">Source: RWA.xyz (Oct 2026)</text>
+                            </g>
+
+                            <!-- Panel 3: 2030 Forecast + Real Estate Note -->
+                            <g transform="translate(870, 15)">
+                                <rect width="395" height="380" rx="22" fill="#ffffff" stroke="#cbd5e1"
+                                    stroke-width="3" />
+                                <text x="28" y="52" font-family="monospace" font-weight="900" font-size="17"
+                                    fill="#15803d">3 · 2030 FINANCIAL FORECAST</text>
+                                <text x="28" y="132" font-family="sans-serif" font-weight="950" font-size="60"
+                                    fill="#15803d">~$2 Trillion</text>
+                                <text x="28" y="195" font-family="sans-serif" font-weight="650" font-size="21"
+                                    fill="#3c3552">McKinsey 2030 base case for</text>
+                                <text x="28" y="232" font-family="sans-serif" font-weight="650" font-size="21"
+                                    fill="#3c3552">tokenized financial assets.</text>
+                                <text x="28" y="325" font-family="monospace" font-weight="800" font-size="16"
+                                    fill="#5e586e">(vs $393.3T global real estate wealth)</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div class="definition-banner"
+                        style="border-color:#86efac; background:#f0fdf4; color:var(--emerald);">
+                        Contracts can check eligibility directly, without fetching the underlying evidence.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: MARKET (SVG DIAGRAM 5: BUYER × SPEND ARCHITECTURE) -->
+            <section class="slide" data-index="6">
+                <div class="slide-inner">
+                    <div class="slide-head">
+                        <div class="eyebrow">Market</div>
+                        <h2>A software opportunity at the boundary of institutions and blockchains.</h2>
+                    </div>
+
+                    <!-- Circular TAM/SAM/SOM Diagram Matching Reference Spec -->
+                    <div class="card iso-card-3d diagram-card">
+                        <svg viewBox="0 0 1440 440" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+                            <!-- LEFT: Nested Bottom-Aligned Circles -->
+                            <!-- Circle 1: TAM Outer -->
+                            <circle cx="200" cy="220" r="195" fill="#0284c7" />
+                            <text x="200" y="85" font-family="sans-serif" font-weight="950" font-size="28"
+                                fill="#ffffff" text-anchor="middle">TAM</text>
+                            <line x1="340" y1="80" x2="450" y2="80" stroke="#0284c7" stroke-width="4" />
+                            <circle cx="450" cy="80" r="7" fill="#0284c7" />
+
+                            <!-- Circle 2: SAM Middle -->
+                            <circle cx="200" cy="265" r="145" fill="#10b981" />
+                            <text x="200" y="175" font-family="sans-serif" font-weight="950" font-size="26"
+                                fill="#ffffff" text-anchor="middle">SAM</text>
+                            <line x1="310" y1="200" x2="450" y2="200" stroke="#10b981" stroke-width="4" />
+                            <circle cx="450" cy="200" r="7" fill="#10b981" />
+
+                            <!-- Circle 3: SOM Inner -->
+                            <circle cx="200" cy="320" r="90" fill="#38bdf8" />
+                            <text x="200" y="315" font-family="sans-serif" font-weight="950" font-size="24"
+                                fill="#ffffff" text-anchor="middle">SOM</text>
+                            <line x1="275" y1="335" x2="450" y2="335" stroke="#38bdf8" stroke-width="4" />
+                            <circle cx="450" cy="335" r="7" fill="#38bdf8" />
+
+                            <!-- RIGHT: Data Tiers with Stats & Defensible Logic -->
+                            <!-- Row 1: TAM -->
+                            <g transform="translate(480, 25)">
+                                <text x="0" y="48" font-family="sans-serif" font-weight="950" font-size="60"
+                                    fill="#0284c7">$16.6B</text>
+                                <text x="235" y="42" font-family="monospace" font-weight="900" font-size="18.5"
+                                    fill="#0369a1" letter-spacing="0.06em">TOTAL ADDRESSABLE MARKET (TAM)</text>
+                                <text x="0" y="90" font-family="sans-serif" font-weight="650" font-size="21.5"
+                                    fill="#5e586e">Adjacent spend: $13.4B ID verification (Grand View) + $3.2B AML software (R&amp;M).</text>
+                            </g>
+
+                            <!-- Row 2: SAM -->
+                            <g transform="translate(480, 155)">
+                                <text x="0" y="48" font-family="sans-serif" font-weight="950" font-size="60"
+                                    fill="#059669">$240M</text>
+                                <text x="210" y="42" font-family="monospace" font-weight="900" font-size="18.5"
+                                    fill="#047857" letter-spacing="0.06em">SERVICEABLE ADDRESSABLE MARKET (SAM)</text>
+                                <text x="0" y="90" font-family="sans-serif" font-weight="650" font-size="21.5"
+                                    fill="#5e586e">~8,000 active EVM protocols, asset platforms &amp; institutional program gates ($30K/yr base).</text>
+                            </g>
+
+                            <!-- Row 3: SOM -->
+                            <g transform="translate(480, 280)">
+                                <text x="0" y="48" font-family="sans-serif" font-weight="950" font-size="60"
+                                    fill="#0284c7">$10.5M</text>
+                                <text x="235" y="42" font-family="monospace" font-weight="900" font-size="18.5"
+                                    fill="#0369a1" letter-spacing="0.06em">SERVICEABLE OBTAINABLE MARKET (SOM)</text>
+                                <text x="0" y="85" font-family="sans-serif" font-weight="750" font-size="20.5"
+                                    fill="#1c182b">Near-term beachhead: 100 accounts × $30K baseline platform subscription.</text>
+                                <text x="0" y="112" font-family="sans-serif" font-weight="650" font-size="18.5"
+                                    fill="#5e586e">Without per-head/decision volume fees ($1–$2/decision) · Y1 pilot beachhead: $300K.</text>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 7: TRACTION -->
+            <section class="slide" data-index="7">
+                <div class="slide-inner">
+                    <div class="slide-head">
+                        <div class="eyebrow">Traction</div>
+                        <h2>Working beta. Institutional conversations. Next: a scoped pilot.</h2>
+                    </div>
+
+                    <div class="traction-layout">
+                        <div class="card highlight iso-card-3d" style="justify-content:space-between; padding:30px 34px;">
+                            <div>
+                                <span class="step-num" style="color:var(--emerald); font-size:16.5px;">DEPLOYED BETA · 99 PASSING TEST SUITES</span>
+                                <h3 style="margin-top:8px; font-size:32px;">Base Sepolia Verifier Registry</h3>
+                            </div>
+
+                            <div class="receipt-hero" style="font-size:21px; line-height:1.65; padding:24px 28px;">
+                                <div style="color:#94a3b8; font-weight:700; font-size:17px;">// Illustrative Decision Schema (Base Sepolia Format)</div>
+                                <div>decision: <span style="color:#86efac; font-weight:900;">"ELIGIBLE"</span></div>
+                                <div>policyId: <span style="color:#dcd4ff; font-weight:800;">"ORG_ELIGIBILITY_V1"</span></div>
+                                <div>expiresAt: <span style="color:#fcd34d; font-weight:800;">"2027-01-15T08:00:00Z"</span></div>
+                            </div>
+
+                            <a href="https://sepolia.basescan.org/address/0xD27e6A8e297177C4Cb284b5C7E2Ccf8d9C69C11a"
+                                target="_blank"
+                                style="font-family:var(--mono); font-size:17.5px; font-weight:850; color:var(--emerald);">
+                                Registry Contract: 0xD27e6A8e297177C4Cb284b5C7E2Ccf8d9C69C11a ↗
+                            </a>
+                        </div>
+
+                        <div style="display:flex; flex-direction:column; gap:20px; height:100%;">
+                            <article class="card" style="border-color:#7dd3fc; padding:28px 32px; flex:1; justify-content:space-between;">
+                                <div>
+                                    <span class="step-num" style="color:var(--cyan); font-size:16.5px;">CUSTOMER DISCOVERY</span>
+                                    <h3 style="margin-top:8px; font-size:30px;">UNDP AltFinLab</h3>
+                                    <p class="sub-punch" style="font-size:21px; margin-top:12px; line-height:1.45;">
+                                         Completed architectural review (Q3 2026); exploring eligibility workflows for cohort organizations.
+                                    </p>
+                                </div>
+                                <span style="font-family:var(--mono); font-size:16.5px; font-weight:850; color:#0369a1;">
+                                    Discussion (not a signed pilot) · Target: Q1 2027 scoped pilot
+                                </span>
+                            </article>
+
+                            <article class="card" style="padding:28px 32px; flex:1; justify-content:space-between;">
+                                <div>
+                                    <span class="step-num" style="font-size:16.5px;">ECOSYSTEM COHORT</span>
+                                    <h3 style="margin-top:8px; font-size:30px;">Horizen Crecimiento</h3>
+                                    <p class="sub-punch" style="font-size:21px; margin-top:12px; line-height:1.45;">
+                                        Participating in the Horizen Crecimiento cohort; scoping confidential decision integrations with ecosystem teams.
+                                    </p>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 8: COMPETITION (~46 WORDS — ULTRA-SHORT 1-3 WORD CELLS) -->
+            <section class="slide" data-index="8">
+                <div class="slide-inner">
+                    <div class="slide-head">
+                        <div class="eyebrow">Competition</div>
+                        <h2>Existing tools lock decisions to one stack or expose raw records.</h2>
+                    </div>
+
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th style="width:28%; font-size:17.5px;">Capability</th>
+                                <th style="width:18%; font-size:17.5px;">Chainlink ACE<br /><span
+                                        style="font-weight:750; font-size:14.5px; text-transform:none; color:var(--muted);">(Policy Framework)</span></th>
+                                <th style="width:18%; font-size:17.5px;">Tokeny<br /><span
+                                        style="font-weight:750; font-size:14.5px; text-transform:none; color:var(--muted);">(ERC-3643 Stack)</span></th>
+                                <th style="width:18%; font-size:17.5px;">Privado / Quadrata<br /><span
+                                        style="font-weight:750; font-size:14.5px; text-transform:none; color:var(--muted);">(User Passports)</span></th>
+                                <th class="zcred-col" style="width:18%; font-size:19px;">zCred</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Evaluates custom offchain records</strong></td>
+                                <td style="color:var(--muted);">Plugs into oracles</td>
+                                <td>No (Platform-bound)</td>
+                                <td style="color:var(--coral);">User claims only</td>
+                                <td class="zcred-col">✓ Yes (Private Enclave)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Works across programs &amp; any EVM app</strong></td>
+                                <td>Yes (Cross-chain)</td>
+                                <td style="color:var(--muted);">Locked to ERC-3643</td>
+                                <td>Yes</td>
+                                <td class="zcred-col">✓ Yes (Any EVM app)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Zero user-held wallet/proof friction</strong></td>
+                                <td style="color:var(--muted);">Varies</td>
+                                <td>Requires wallet claim</td>
+                                <td style="color:var(--coral);">Requires user proof</td>
+                                <td class="zcred-col">✓ Automated decision</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Enterprise brand &amp; network scale</strong></td>
+                                <td style="color:var(--emerald); font-weight:800;">Global scale</td>
+                                <td style="color:var(--emerald); font-weight:800;">Institutional</td>
+                                <td>Established</td>
+                                <td class="zcred-col" style="color:var(--muted); font-weight:800;">Early (Live Beta)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p class="footer-note">
+                        Chainlink ACE &amp; token platforms enforce rules onchain; zCred privately evaluates evidence to produce the decision.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SLIDE 9: GO-TO-MARKET (SVG DIAGRAM 6: PILOT TO EXPANSION PIPELINE) -->
+            <section class="slide" data-index="9">
+                <div class="slide-inner">
+                    <div class="slide-head">
+                        <div class="eyebrow">Go-To-Market</div>
+                        <h2>Start with one eligibility workflow. Expand within the customer.</h2>
+                    </div>
+
+                    <div class="card iso-card-3d diagram-card">
+                        <svg viewBox="0 0 1280 400" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+                            <!-- Stage 1 -->
+                            <g transform="translate(15, 15)">
+                                <rect width="365" height="370" rx="22" fill="#ffffff" stroke="#cbd5e1"
+                                    stroke-width="3" />
+                                <text x="24" y="52" font-family="monospace" font-weight="900" font-size="17"
+                                    fill="#0284c7">STAGE 1 · MONTHS 1–2</text>
+                                <text x="24" y="118" font-family="sans-serif" font-weight="900" font-size="30"
+                                    fill="#1c182b">60-Day Scoped Pilot</text>
+                                <text x="24" y="185" font-family="sans-serif" font-weight="650" font-size="21"
+                                    fill="#5e586e">Connect 1 evidence source,</text>
+                                <text x="24" y="222" font-family="sans-serif" font-weight="650" font-size="21"
+                                    fill="#5e586e">1 policy rule, and 1 application.</text>
+                            </g>
+
+                            <line x1="390" y1="200" x2="435" y2="200" stroke="#6f3fde" stroke-width="5" />
+                            <polygon points="435,192 450,200 435,208" fill="#6f3fde" />
+
+                            <!-- Stage 2 -->
+                            <g transform="translate(450, 15)">
+                                <rect width="365" height="370" rx="22" fill="#532cb8" stroke="#3b1d8f"
+                                    stroke-width="3" />
+                                <text x="24" y="52" font-family="monospace" font-weight="900" font-size="17"
+                                    fill="#dcd4ff">STAGE 2 · MONTHS 2–6</text>
+                                <text x="24" y="118" font-family="sans-serif" font-weight="900" font-size="30"
+                                    fill="#ffffff">Production Launch</text>
+                                <text x="24" y="185" font-family="sans-serif" font-weight="650" font-size="21"
+                                    fill="#ede7ff">Deploy live institutional gate</text>
+                                <text x="24" y="222" font-family="sans-serif" font-weight="650" font-size="21"
+                                    fill="#ede7ff">and convert to paid subscription.</text>
+                            </g>
+
+                            <line x1="825" y1="200" x2="870" y2="200" stroke="#15803d" stroke-width="5" />
+                            <polygon points="870,192 885,200 870,208" fill="#15803d" />
+
+                            <!-- Stage 3 -->
+                            <g transform="translate(885, 15)">
+                                <rect width="365" height="370" rx="22" fill="#ffffff" stroke="#86efac"
+                                    stroke-width="3" />
+                                <text x="24" y="52" font-family="monospace" font-weight="900" font-size="17"
+                                    fill="#15803d">STAGE 3 · MONTHS 6–18</text>
+                                <text x="24" y="118" font-family="sans-serif" font-weight="900" font-size="30"
+                                    fill="#1c182b">Ecosystem Expansion</text>
+                                <text x="24" y="185" font-family="sans-serif" font-weight="650" font-size="21"
+                                    fill="#5e586e">Expand to additional policies,</text>
+                                <text x="24" y="222" font-family="sans-serif" font-weight="650" font-size="21"
+                                    fill="#5e586e">partner apps &amp; volume fees.</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <p class="footer-note">
+                        Pricing hypothesis: $2,500/mo platform subscription + $1.00–$2.00 per verified decision.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SLIDE 10: TEAM (CREDENTIAL LINES + SHARED EXECUTION ARCHITECTURE BAR) -->
+            <section class="slide" data-index="10">
+                <div class="slide-inner">
+                    <div class="slide-head">
+                        <div class="eyebrow">Team</div>
+                        <h2>The founding team built the system end to end.</h2>
+                    </div>
+
+                    <div class="two-grid" style="flex:0 1 auto; margin:auto 0; gap:clamp(24px, 2.5vw, 40px); align-items:stretch;">
+                        <article class="card highlight iso-card-3d" style="padding:clamp(28px, 3vh, 38px) clamp(28px, 2.5vw, 40px); display:flex; flex-direction:column; justify-content:center; gap:20px; border-radius:24px;">
+                            <div class="team-photo-wrap" style="align-items:center; gap:24px;">
+                                <div class="team-photo-box" style="width:112px; height:112px; border-radius:22px; flex-shrink:0;">
+                                    <img class="team-photo-img" src="images/shikhar.jpeg" alt="Shikhar Singh"
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                                    <div class="team-photo-placeholder" style="font-size:32px;">SS</div>
+                                </div>
+                                <div>
+                                    <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+                                        <h3 style="font-size:38px; font-weight:850; letter-spacing:-0.03em;">Shikhar Singh</h3>
+                                        <a href="https://x.com/0xShikhar" target="_blank"
+                                            style="font-family:var(--mono); font-size:19px; font-weight:850; color:var(--accent);">@0xShikhar ↗</a>
+                                    </div>
+                                    <p
+                                        style="font-family:var(--mono); font-size:18.5px; font-weight:850; color:var(--accent-dark); margin-top:6px;">
+                                        Cofounder · Policy Engine, Verifier Architecture &amp; SDK
+                                    </p>
+                                    <span class="exp-badge" style="font-size:16px; padding:6px 14px; margin-top:8px;">Prior Project: Cofounder at NebulaID</span>
+                                </div>
+                            </div>
+                            <p class="sub-punch" style="font-size:23.5px; line-height:1.5; color:var(--ink); margin:0;">
+                                Architected zCred’s enclave policy evaluator, TypeScript SDK, and EVM verifier interfaces.
+                            </p>
+                        </article>
+
+                        <article class="card highlight iso-card-3d" style="padding:clamp(28px, 3vh, 38px) clamp(28px, 2.5vw, 40px); display:flex; flex-direction:column; justify-content:center; gap:20px; border-radius:24px;">
+                            <div class="team-photo-wrap" style="align-items:center; gap:24px;">
+                                <div class="team-photo-box" style="width:112px; height:112px; border-radius:22px; flex-shrink:0;">
+                                    <img class="team-photo-img" src="images/0xkryptonian.png" alt="0xKryptonion"
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                                    <div class="team-photo-placeholder" style="font-size:32px;">0xK</div>
+                                </div>
+                                <div>
+                                    <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+                                        <h3 style="font-size:38px; font-weight:850; letter-spacing:-0.03em;">0xKryptonion</h3>
+                                        <a href="https://x.com/krpto_code" target="_blank"
+                                            style="font-family:var(--mono); font-size:19px; font-weight:850; color:var(--accent);">@krpto_code ↗</a>
+                                    </div>
+                                    <p
+                                        style="font-family:var(--mono); font-size:18.5px; font-weight:850; color:var(--accent-dark); margin-top:6px;">
+                                        Cofounder · Smart Contracts, Registries &amp; Security
+                                    </p>
+                                    <span class="exp-badge" style="font-size:16px; padding:6px 14px; margin-top:8px;">Prior Project: Cofounder at Zauth · Protocol Security</span>
+                                </div>
+                            </div>
+                            <p class="sub-punch" style="font-size:23.5px; line-height:1.5; color:var(--ink); margin:0;">
+                                Leads onchain attestation registries, Solidity verifier security, and multi-chain EVM integrations.
+                            </p>
+                        </article>
+                    </div>
+
+                    <div class="definition-banner" style="font-size:22px; padding:18px 28px;">
+                        Together: shipped the Base Sepolia registry, private policy engine &amp; SDK (99 passing test suites).
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 11: THE ASK (SVG DIAGRAM 7: TWO-STAGE FIRST CLOSE -> TOTAL ROUND DIAGRAM) -->
+            <section class="slide" data-index="11">
+                <div class="slide-inner">
+                    <div class="slide-head">
+                        <div class="eyebrow">PRE-SEED ROUND · POST-MONEY SAFE · 12 MO RUNWAY</div>
+                        <h2>$250K first close toward a $500K round.</h2>
+                    </div>
+
+                    <!-- Two-Stage Fundraising Milestone SVG Diagram -->
+                    <div class="card iso-card-3d diagram-card">
+                        <svg viewBox="0 0 1280 380" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+                            <!-- Stage 1: $250K First Close -->
+                            <g transform="translate(15, 15)">
+                                <rect width="575" height="350" rx="24" fill="#171326" stroke="#6f3fde"
+                                    stroke-width="3" />
+                                <rect x="28" y="28" width="250" height="38" rx="10" fill="#532cb8" />
+                                <text x="153" y="53" text-anchor="middle" font-family="monospace" font-weight="900"
+                                    font-size="16.5" fill="#ffffff">STAGE 1 · FIRST CLOSE</text>
+                                <text x="28" y="150" font-family="sans-serif" font-weight="950" font-size="64"
+                                    fill="#ffffff">$250,000</text>
+                                <text x="28" y="225" font-family="sans-serif" font-weight="750" font-size="23"
+                                    fill="#dcd4ff">Unlocks: Independent security review</text>
+                                <text x="28" y="265" font-family="sans-serif" font-weight="750" font-size="23"
+                                    fill="#dcd4ff">+ one scoped institutional pilot.</text>
+                            </g>
+
+                            <!-- Connector Arrow -->
+                            <line x1="600" y1="190" x2="665" y2="190" stroke="#15803d" stroke-width="5" />
+                            <polygon points="665,182 680,190 665,198" fill="#15803d" />
+
+                            <!-- Stage 2: $500K Total Round -->
+                            <g transform="translate(685, 15)">
+                                <rect width="575" height="350" rx="24" fill="#f0fdf4" stroke="#15803d"
+                                    stroke-width="3" />
+                                <rect x="28" y="28" width="320" height="38" rx="10" fill="#dcfce7" />
+                                <text x="188" y="53" text-anchor="middle" font-family="monospace" font-weight="900"
+                                    font-size="16.5" fill="#15803d">STAGE 2 · TOTAL ROUND (+$250K)</text>
+                                <text x="28" y="150" font-family="sans-serif" font-weight="950" font-size="64"
+                                    fill="#15803d">$500,000 Total</text>
+                                <text x="28" y="225" font-family="sans-serif" font-weight="750" font-size="23"
+                                    fill="#1c182b">Unlocks: Production integration &amp;</text>
+                                <text x="28" y="265" font-family="sans-serif" font-weight="750" font-size="23"
+                                    fill="#1c182b">conversion to recurring B2B revenue.</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div class="definition-banner"
+                        style="background:#171326; color:#ffffff; border-color:#352d54; display:flex; justify-content:space-between; align-items:center; padding:18px 32px; font-size:20.5px;">
+                        <span>Targeting $500K across two milestone closes to reach production revenue.</span>
+                        <span>
+                            <a href="mailto:hi@zcred.xyz"
+                                style="color:#86efac; margin-right:20px; font-weight:850; font-size:20.5px;">hi@zcred.xyz</a>
+                            <a href="https://zcred.xyz" target="_blank" style="color:#ffffff; font-weight:850; font-size:20.5px;">zcred.xyz ↗</a>
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 12: APPENDIX (WORKFLOW, GOVERNANCE, METRICS & REFERENCE QR) -->
+            <section class="slide" data-index="12">
+                <div class="slide-inner">
+                    <div class="slide-head">
+                        <div class="eyebrow">Appendix · Workflow &amp; Diligence</div>
+                        <h2>Lead workflow, pilot metrics, and data governance.</h2>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: 1.62fr 1fr; gap: clamp(16px, 1.8vw, 24px); flex: 1 1 auto; min-height: 0; align-items: stretch;">
+                        <!-- Left 3/5: Top (Workflow + Governance) and Bottom (Pilot Metrics) -->
+                        <div style="display:flex; flex-direction:column; gap: clamp(14px, 1.6vh, 20px); min-height: 0; justify-content: stretch;">
+                            <!-- Top Row: Lead Workflow + Trust & Governance -->
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: clamp(14px, 1.6vw, 20px); flex: 1 1 auto; min-height: 0;">
+                                <!-- Card 1: Lead Workflow -->
+                                <article class="card" style="padding:clamp(20px, 2.4vh, 30px) clamp(18px, 1.6vw, 24px); justify-content:flex-start;">
+                                    <span class="step-num" style="font-size:15px;">LEAD WORKFLOW</span>
+                                    <h3 style="font-size:clamp(22px, 2vw, 27px); font-weight:850; margin:8px 0 16px; color:var(--ink); line-height:1.2;">Admitting an Organization</h3>
+                                    <div style="font-size:clamp(16.5px, 1.5vw, 19.5px); line-height:1.6; color:var(--ink-2); display:flex; flex-direction:column; gap:12px;">
+                                        <div><strong>1. Check:</strong> Verify credentials against program rules.</div>
+                                        <div><strong>2. Decide:</strong> Return Eligible, Review Required, or Ineligible + expiry.</div>
+                                        <div><strong>3. Enforce:</strong> Contract reads status and gates access.</div>
+                                    </div>
+                                </article>
+
+                                <!-- Card 2: Trust & Governance -->
+                                <article class="card" style="padding:clamp(20px, 2.4vh, 30px) clamp(18px, 1.6vw, 24px); justify-content:flex-start;">
+                                    <span class="step-num" style="color:var(--cyan); font-size:15px;">TRUST &amp; GOVERNANCE</span>
+                                    <h3 style="font-size:clamp(22px, 2vw, 27px); font-weight:850; margin:8px 0 16px; color:var(--ink); line-height:1.2;">Liability &amp; Data Retention</h3>
+                                    <div style="font-size:clamp(16.5px, 1.5vw, 19.5px); line-height:1.6; color:var(--ink-2); display:flex; flex-direction:column; gap:12px;">
+                                        <div><strong>Rule Owner:</strong> Institution defines policy thresholds.</div>
+                                        <div><strong>Retention:</strong> Ephemeral memory; only audit hashes and decision metadata persist.</div>
+                                        <div><strong>Revocation:</strong> Time-bound expiry + onchain revocation hook.</div>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <!-- Bottom Block: Pilot Metrics placed below the two blocks -->
+                            <article class="card" style="padding:clamp(18px, 2vh, 24px) clamp(20px, 1.8vw, 26px); justify-content:flex-start;">
+                                <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:12px;">
+                                    <span class="step-num" style="color:var(--emerald); font-size:15px;">PILOT METRICS</span>
+                                    <h3 style="font-size:clamp(20px, 1.8vw, 24px); font-weight:850; margin:0; color:var(--ink);">What We Measure in Pilots</h3>
+                                </div>
+                                <div style="display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.3vw, 18px); font-size:clamp(16px, 1.4vw, 18.5px); line-height:1.5; color:var(--ink-2);">
+                                    <div style="background:rgba(16, 185, 129, 0.05); border:1.5px solid rgba(16, 185, 129, 0.2); border-radius:14px; padding:12px 16px;">
+                                        <strong style="color:var(--ink); display:block; margin-bottom:4px;">1. Time to decision</strong>
+                                        <span>Baseline vs. pilot.</span>
+                                    </div>
+                                    <div style="background:rgba(16, 185, 129, 0.05); border:1.5px solid rgba(16, 185, 129, 0.2); border-radius:14px; padding:12px 16px;">
+                                        <strong style="color:var(--ink); display:block; margin-bottom:4px;">2. App PII custody</strong>
+                                        <span>Raw files eliminated from relying app.</span>
+                                    </div>
+                                    <div style="background:rgba(16, 185, 129, 0.05); border:1.5px solid rgba(16, 185, 129, 0.2); border-radius:14px; padding:12px 16px;">
+                                        <strong style="color:var(--ink); display:block; margin-bottom:4px;">3. Integration time</strong>
+                                        <span>Policy setup to live contract check.</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+
+                        <!-- Right 2/5: Reference Hub with Big QR Code (No padding around QR code) -->
+                        <article class="card highlight iso-card-3d" style="padding:clamp(18px, 2.2vh, 28px) clamp(16px, 1.6vw, 24px); display:flex; flex-direction:column; align-items:center; justify-content:space-between; text-align:center; height:100%; min-height:0;">
+                            <span class="step-num" style="font-size:16px; letter-spacing:0.06em;">REFERENCE HUB</span>
+                            <div style="flex:1 1 auto; display:flex; align-items:center; justify-content:center; width:100%; min-height:0; padding:6px 0;">
+                                <div style="width:min(100%, clamp(280px, 44vh, 440px)); aspect-ratio:1/1; border-radius:20px; border:2.5px solid var(--line-strong); background:#ffffff; padding:10px; box-shadow:0 12px 32px rgba(28,24,43,0.08); display:flex; align-items:center; justify-content:center;">
+                                    <img src="images/qr-links.png" alt="zcred.xyz/links QR Code"
+                                        style="width:100%; height:100%; object-fit:contain; display:block; border-radius:12px;"
+                                        onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=600x600&amp;color=1c182b&amp;margin=0&amp;data=https://zcred.xyz/links';" />
+                                </div>
+                            </div>
+                            <div style="margin-top:2px;">
+                                <a href="https://zcred.xyz/links" target="_blank" style="font-size:clamp(26px, 2.4vw, 34px); font-weight:950; color:var(--accent); display:block; letter-spacing:-0.02em; text-decoration:none;">zcred.xyz/links ↗</a>
+                                <a href="mailto:hi@zcred.xyz" style="font-family:var(--mono); font-size:clamp(18px, 1.5vw, 22px); font-weight:850; color:var(--ink); display:block; margin-top:6px; text-decoration:none;">hi@zcred.xyz</a>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="definition-banner" style="display:flex; justify-content:space-between; align-items:center; font-size:21px; padding:16px 28px;">
+                        <span><strong>zCred:</strong> Private Evidence. Onchain Decisions.</span>
+                        <span><a href="mailto:hi@zcred.xyz" style="color:var(--accent); font-weight:850;">hi@zcred.xyz</a> · <a href="https://zcred.xyz/links" target="_blank" style="color:var(--accent); font-weight:850;">zcred.xyz/links</a> · Live demos &amp; pilot onboarding</span>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        (() => {
+            const stage = document.getElementById("slideStage");
+            const slides = Array.from(document.querySelectorAll(".slide"));
+            const mainSlideCount = 11;
+            const counter = document.getElementById("slideCounter");
+            const progress = document.getElementById("progressFill");
+            let currentIndex = 0;
+            let isNavigating = false;
+
+            const pad = (n) => String(n).padStart(2, "0");
+
+            function updateUI(index) {
+                currentIndex = Math.max(0, Math.min(index, slides.length - 1));
+                slides.forEach((s, i) => {
+                    const isActive = i === currentIndex;
+                    s.classList.toggle("active", isActive);
+                    s.setAttribute("aria-hidden", String(!isActive));
+                });
+                if (counter) {
+                    counter.textContent = currentIndex >= mainSlideCount
+                        ? `APP / ${pad(mainSlideCount)}`
+                        : `${pad(currentIndex + 1)} / ${pad(mainSlideCount)}`;
+                }
+                if (progress) {
+                    const pct = Math.min(100, ((currentIndex + 1) / mainSlideCount) * 100);
+                    progress.style.width = `${pct}%`;
+                }
+                history.replaceState(null, "", `#slide=${currentIndex + 1}`);
+            }
+
+            function scrollToSlide(index) {
+                const target = Math.max(0, Math.min(index, slides.length - 1));
+                isNavigating = true;
+                updateUI(target);
+                slides[target].scrollIntoView({ behavior: "smooth", block: "start" });
+                setTimeout(() => { isNavigating = false; }, 600);
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                if (isNavigating) return;
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+                        const idx = Number(entry.target.getAttribute("data-index")) - 1;
+                        if (!isNaN(idx)) updateUI(idx);
+                    }
+                });
+            }, { root: stage, threshold: [0.5, 0.7] });
+
+            slides.forEach((s) => observer.observe(s));
+
+            window.addEventListener("keydown", (e) => {
+                if (["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(document.activeElement?.tagName)) return;
+                if (["ArrowDown", "PageDown", " ", "ArrowRight"].includes(e.key)) {
+                    e.preventDefault();
+                    scrollToSlide(currentIndex + 1);
+                } else if (["ArrowUp", "PageUp", "ArrowLeft", "Backspace"].includes(e.key)) {
+                    e.preventDefault();
+                    scrollToSlide(currentIndex - 1);
+                } else if (e.key === "Home") {
+                    e.preventDefault();
+                    scrollToSlide(0);
+                } else if (e.key === "End") {
+                    e.preventDefault();
+                    scrollToSlide(slides.length - 1);
+                }
+            });
+
+            const initial = location.hash.match(/slide=(\d+)/);
+            if (initial) {
+                const initIdx = Number(initial[1]) - 1;
+                if (initIdx >= 0 && initIdx < slides.length) setTimeout(() => scrollToSlide(initIdx), 80);
+            } else {
+                updateUI(0);
+            }
+        })();
+    </script>
+</body>
+
+</html>

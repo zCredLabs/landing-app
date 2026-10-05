@@ -108,8 +108,8 @@ export const metadata: Metadata = {
     title: "zCred — The Confidential Decision Layer for Identity & Compliance",
     description:
       "Verify identity, creditworthiness, and compliance without ever exposing underlying data or proprietary decision logic. Built on Horizen Vela & Base.",
-    creator: "@zcred_org",
-    site: "@zcred_org",
+    creator: "@zCredLabs",
+    site: "@zCredLabs",
     images: ["/og-image.png"],
   },
   robots: {
@@ -148,8 +148,8 @@ const jsonLdData = {
       description:
         "The Confidential Decision Layer for Identity & Compliance in Web3, built on Horizen Vela hardware TEE enclaves and Base L2.",
       sameAs: [
-        "https://x.com/zcred_org",
-        "https://github.com/zcred-protocol",
+        "https://x.com/zCredLabs",
+        "https://github.com/zcredlabs",
       ],
       founder: {
         "@type": "Person",
