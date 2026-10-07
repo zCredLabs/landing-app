@@ -2,7 +2,9 @@ import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
 import { Reveal } from "@/components/landing/reveal"
 
-export const CALENDLY_URL = "https://calendly.com/0xshikhar/30min"
+import { SITE_CONFIG } from "@/lib/constants"
+
+export const CALENDLY_URL = SITE_CONFIG.links.calendly
 
 export const buttonStyles = {
   primary:

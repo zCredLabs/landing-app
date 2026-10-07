@@ -7,14 +7,7 @@ import { ArrowRight, Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useMeetingModal } from "@/components/landing/meeting-context"
 import { buttonStyles } from "@/components/landing/primitives"
-
-const NAV_LINKS = [
-  { href: "/#how-it-works", label: "How it works" },
-  { href: "/#use-cases", label: "Use cases" },
-  { href: "/#security", label: "Security" },
-  { href: "/#developers", label: "Developers" },
-  { href: "/#faq", label: "FAQ" },
-] as const
+import { NAV_LINKS } from "@/lib/constants"
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -58,7 +51,7 @@ export function Navbar() {
             Whitepaper
           </Link>
           <button type="button" onClick={openMeeting} className={cn(buttonStyles.primary, "px-4 py-2")}>
-            Talk to us
+            Join Beta
             <ArrowRight className="h-3.5 w-3.5" />
           </button>
         </div>
@@ -99,7 +92,7 @@ export function Navbar() {
             }}
             className={cn(buttonStyles.primary, "mt-4 w-full")}
           >
-            Talk to us
+            Join Beta
           </button>
         </div>
       )}

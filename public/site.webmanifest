@@ -1,7 +1,7 @@
 {
-  "name": "zCred Protocol — Confidential Decision Layer",
+  "name": "zCred Protocol — Confidential Compliance Decisions",
   "short_name": "zCred",
-  "description": "The Confidential Decision Layer for Identity, Creditworthiness & Compliance in Web3, built on Horizen Vela and Base.",
+  "description": "Confidential compliance decisions for identity, creditworthiness & compliance in Web3, built on Horizen Vela and Base.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

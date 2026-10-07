@@ -3,17 +3,18 @@ import type { Metadata } from "next"
 import "@/app/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { MeetingProvider } from "@/components/landing/meeting-context"
+import { SITE_CONFIG } from "@/lib/constants"
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://zcred.xyz"),
+  metadataBase: new URL(SITE_CONFIG.url),
   title: {
-    default: "zCred — The Confidential Decision Layer for Identity & Compliance",
-    template: "%s | zCred Protocol",
+    default: "zCred — Confidential Compliance Decisions for Web3",
+    template: `%s | ${SITE_CONFIG.fullName}`,
   },
   description:
-    "zCred turns private identity, credit, and compliance credentials into reusable, application-specific attestations for Base — without ever exposing raw data or proprietary policy logic. Built on Horizen Vela hardware TEE enclaves.",
+    "Automate institutional-grade KYC, sanctions screening, and investor accreditation without exposing PII or storing customer data on public ledgers. Built on Horizen Vela and Base.",
   applicationName: "zCred Protocol",
-  authors: [{ name: "zCred Protocol Team", url: "https://zcred.xyz" }],
+  authors: [{ name: "zCred Protocol Team", url: SITE_CONFIG.url }],
   generator: "Next.js",
   keywords: [
     "zCred",
@@ -51,10 +52,10 @@ export const metadata: Metadata = {
     telephone: false,
   },
   alternates: {
-    canonical: "https://zcred.xyz",
+    canonical: SITE_CONFIG.url,
     types: {
-      "application/json": "https://zcred.xyz/api/agent",
-      "text/markdown": "https://zcred.xyz/llms.txt",
+      "application/json": `${SITE_CONFIG.url}/api/agent`,
+      "text/markdown": `${SITE_CONFIG.url}/llms.txt`,
     },
   },
   icons: {
@@ -81,17 +82,17 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.webmanifest",
   openGraph: {
-    title: "zCred — The Confidential Decision Layer for Identity & Compliance",
+    title: "zCred — Confidential Compliance Decisions for Web3",
     description:
-      "Turn private identity, credit, and compliance credentials into reusable, application-specific attestations for Base — without ever exposing raw data or proprietary policy logic.",
-    url: "https://zcred.xyz",
-    siteName: "zCred Protocol",
+      "Automate institutional-grade KYC, sanctions screening, and investor accreditation without exposing PII or storing customer data on public ledgers.",
+    url: SITE_CONFIG.url,
+    siteName: SITE_CONFIG.fullName,
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "zCred Protocol — The Confidential Decision Layer for Identity & Compliance",
+        alt: "zCred Protocol — Confidential Compliance Decisions for Web3",
       },
       {
         url: "/logo.png",
@@ -105,11 +106,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "zCred — The Confidential Decision Layer for Identity & Compliance",
+    title: "zCred — Confidential Compliance Decisions for Web3",
     description:
       "Verify identity, creditworthiness, and compliance without ever exposing underlying data or proprietary decision logic. Built on Horizen Vela & Base.",
-    creator: "@zCredLabs",
-    site: "@zCredLabs",
+    creator: SITE_CONFIG.links.twitterHandle,
+    site: SITE_CONFIG.links.twitterHandle,
     images: ["/og-image.png"],
   },
   robots: {
@@ -146,10 +147,10 @@ const jsonLdData = {
       },
       image: "https://zcred.xyz/logo.png",
       description:
-        "The Confidential Decision Layer for Identity & Compliance in Web3, built on Horizen Vela hardware TEE enclaves and Base L2.",
+        "Confidential compliance decisions for onchain finance, built on Horizen Vela hardware TEE enclaves and Base.",
       sameAs: [
-        "https://x.com/zCredLabs",
-        "https://github.com/zcredlabs",
+        SITE_CONFIG.links.twitter,
+        SITE_CONFIG.links.github,
       ],
       founder: {
         "@type": "Person",
@@ -201,7 +202,7 @@ const jsonLdData = {
       "@type": "ScholarlyArticle",
       "@id": "https://zcred.xyz/#whitepaper",
       headline:
-        "zCred: A Confidential Decision Layer for Multi-Credential Identity, Creditworthiness, and Compliance in Decentralized Networks",
+        "zCred: Confidential Compliance Decisions for Identity, Creditworthiness, and Multi-Credential Verification in Web3",
       url: "https://zcred.xyz/apa-brief",
       author: {
         "@type": "Organization",

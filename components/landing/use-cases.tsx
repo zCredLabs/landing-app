@@ -75,8 +75,11 @@ export function UseCases() {
                 </li>
               ))}
             </ul>
-            <MeetingButton className="group mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-violet-700 hover:text-violet-900 cursor-pointer">
-              Become a design partner
+            <MeetingButton
+              integration="rwa-compliance"
+              className="group mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-violet-700 hover:text-violet-900 cursor-pointer"
+            >
+              Apply for compliance beta
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </MeetingButton>
           </div>

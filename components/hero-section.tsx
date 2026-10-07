@@ -1,11 +1,9 @@
-import { ArrowRight, Calendar, Check } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { ArrowRight, Check } from "lucide-react"
 import { HeroVisual } from "@/components/landing/hero-visual"
-import { MeetingButton } from "@/components/landing/meeting-context"
+import { HeroCta } from "@/components/landing/hero-cta"
 import { Reveal } from "@/components/landing/reveal"
-import { CALENDLY_URL, Container, buttonStyles } from "@/components/landing/primitives"
-
-const ASSURANCES = ["No personal data stored on-chain", "Hardware-isolated evaluation", "One-line contract integration"]
+import { Container } from "@/components/landing/primitives"
+import { HERO_ASSURANCES, SITE_CONFIG } from "@/lib/constants"
 
 export function HeroSection() {
   return (
@@ -17,7 +15,7 @@ export function HeroSection() {
         <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-12">
           <Reveal className="lg:col-span-6">
             <a
-              href="https://horizen.io"
+              href={SITE_CONFIG.links.horizen}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white py-1 pl-1 pr-3 text-xs font-medium text-slate-700 shadow-sm transition-colors hover:border-slate-300"
@@ -36,23 +34,14 @@ export function HeroSection() {
             </h1>
 
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-600">
-              zCred is the confidential decision layer for identity and compliance. Sensitive data is evaluated inside
-              hardware-isolated enclaves on Horizen Vela, and only a signed verdict settles on-chain.
+              zCred delivers confidential compliance decisions for protocols and asset issuers. Sensitive credentials are evaluated inside
+              hardware-isolated enclaves on Horizen Vela, and only a signed verdict settles on Base.
             </p>
 
-            <div className="mt-9 flex flex-wrap items-center gap-3">
-              <a href={CALENDLY_URL} target="_blank" rel="noreferrer" className={buttonStyles.primary}>
-                <Calendar className="h-4 w-4" />
-                Schedule a meeting
-              </a>
-              <MeetingButton className={cn(buttonStyles.secondary, "group")}>
-                Request early access
-                <ArrowRight className="h-4 w-4 text-slate-400 transition-transform group-hover:translate-x-0.5" />
-              </MeetingButton>
-            </div>
+            <HeroCta />
 
             <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-2.5 text-sm text-slate-600">
-              {ASSURANCES.map((item) => (
+              {HERO_ASSURANCES.map((item) => (
                 <li key={item} className="flex items-center gap-2">
                   <Check className="h-4 w-4 text-emerald-600" />
                   {item}

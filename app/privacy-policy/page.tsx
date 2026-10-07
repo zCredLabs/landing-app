@@ -41,7 +41,7 @@ export default function PrivacyPolicyPage() {
               1. Architectural Principle: Zero PII Custody (0 Bytes Stored)
             </h2>
             <p className="mb-3">
-              zCred is designed from the silicon up as a <strong>confidential computing decision layer</strong>. Unlike traditional identity verification or centralized credit bureaus, our fundamental architectural invariant is that <strong>we do not custody, persist, or store Personally Identifiable Information (PII)</strong>.
+              zCred is designed from the silicon up as a <strong>confidential compliance decision engine</strong>. Unlike traditional identity verification or centralized credit bureaus, our fundamental architectural invariant is that <strong>we do not custody, persist, or store Personally Identifiable Information (PII)</strong>.
             </p>
             <p>
               We do not operate databases of government identification documents, financial credentials, tax returns, or private applicant records. Neither zCred protocol operators nor the decentralized applications requesting decisions ever gain visibility into your raw personal data.

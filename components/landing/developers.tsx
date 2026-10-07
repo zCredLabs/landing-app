@@ -2,8 +2,9 @@ import type { ReactNode } from "react"
 import { ArrowUpRight, Check } from "lucide-react"
 import { Reveal } from "@/components/landing/reveal"
 import { Section, SectionHeader } from "@/components/landing/primitives"
+import { SITE_CONFIG } from "@/lib/constants"
 
-const REGISTRY_ADDRESS = "0xD27e6A8e297177C4Cb284b5C7E2Ccf8d9C69C11a"
+const REGISTRY_ADDRESS = SITE_CONFIG.contracts.baseSepoliaRegistry
 
 const CODE = `import { IZcredRegistry } from "./IZcredRegistry.sol";
 

@@ -54,7 +54,7 @@ export default function TermsOfServicePage() {
               zCred is an infrastructure protocol that facilitates confidential decision evaluations and cryptographic attestation generation utilizing Hardware Enclaves (AWS Nitro TEE) and zero-knowledge proofs.
             </p>
             <p>
-              zCred operates as a computational decision layer and does not provide legal advice, financial underwriting guarantees, or banking services.
+              zCred operates as a computational decision engine and does not provide legal advice, financial underwriting guarantees, or banking services.
             </p>
           </section>
 

@@ -1,36 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Container } from "@/components/landing/primitives"
-
-const COLUMNS = [
-  {
-    title: "Product",
-    links: [
-      { label: "How it works", href: "/#how-it-works" },
-      { label: "Compliance Shield", href: "/#use-cases" },
-      { label: "RiskX Credit", href: "/#use-cases" },
-      { label: "Agent Passport", href: "/#use-cases" },
-    ],
-  },
-  {
-    title: "Developers",
-    links: [
-      { label: "Integration", href: "/#developers" },
-      { label: "Whitepaper", href: "/apa-brief" },
-      { label: "GitHub", href: "https://github.com/zcredlabs" },
-      { label: "llms.txt", href: "/llms.txt" },
-    ],
-  },
-  {
-    title: "Legal",
-    links: [
-      { label: "Privacy Policy", href: "/privacy-policy" },
-      { label: "Terms of Service", href: "/terms-of-service" },
-      { label: "Cookie Policy", href: "/cookie-policy" },
-      { label: "GDPR", href: "/gdpr-compliance" },
-    ],
-  },
-] as const
+import { FOOTER_COLUMNS, SITE_CONFIG } from "@/lib/constants"
 
 export function Footer() {
   return (
@@ -43,19 +14,19 @@ export function Footer() {
               <span className="text-base font-semibold tracking-tight text-slate-950">zCred</span>
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-500">
-              The confidential decision layer for identity and compliance. Built on Horizen Vela and Base.
+              Confidential compliance decisions for onchain finance. Built on Horizen Vela and Base.
             </p>
             <a
-              href="https://x.com/zCredLabs"
+              href={SITE_CONFIG.links.twitter}
               target="_blank"
               rel="noreferrer"
               className="mt-5 inline-block text-sm font-medium text-slate-700 hover:text-slate-950"
             >
-              @zCredLabs on X
+              {SITE_CONFIG.links.twitterHandle} on X
             </a>
           </div>
 
-          {COLUMNS.map((col) => (
+          {FOOTER_COLUMNS.map((col) => (
             <div key={col.title} className="md:col-span-2">
               <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-950">{col.title}</h3>
               <ul className="mt-4 space-y-3">

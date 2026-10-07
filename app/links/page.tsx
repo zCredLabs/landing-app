@@ -14,86 +14,22 @@ import {
   ArrowUpRight,
   FileCode,
 } from "lucide-react"
+import { SITE_CONFIG, DIRECTORY_LINKS } from "@/lib/constants"
 
-interface LinkItem {
-  id: string
-  title: string
-  href: string
-  badge: string
-  icon: React.ComponentType<{ className?: string }>
-  isExternal?: boolean
-  highlight?: boolean
-  contractAddress?: string
-}
+const ICON_MAP = {
+  FileText,
+  Calendar,
+  Globe,
+  ShieldCheck,
+  FileCode,
+  Code,
+  Mail,
+} as const
 
-const LINKS: LinkItem[] = [
-  {
-    id: "pitch-deck",
-    title: "Investor Pitch Deck",
-    href: "/deck.html",
-    badge: "View Slides",
-    icon: FileText,
-    isExternal: true,
-    highlight: true,
-  },
-  {
-    id: "calendly",
-    title: "Schedule 30-Min Technical Diligence",
-    href: "https://calendly.com/0xshikhar/30min",
-    badge: "Book Call",
-    icon: Calendar,
-    isExternal: true,
-  },
-  {
-    id: "platform-demo",
-    title: "Platform & Verification Engine",
-    href: "/",
-    badge: "Live App",
-    icon: Globe,
-    isExternal: false,
-  },
-  {
-    id: "smart-contract",
-    title: "Verified Base Sepolia Attestation Registry",
-    href: "https://sepolia.basescan.org/address/0xD27e6A8e297177C4Cb284b5C7E2Ccf8d9C69C11a",
-    badge: "BaseScan",
-    icon: ShieldCheck,
-    isExternal: true,
-    contractAddress: "0xD27e6A8e297177C4Cb284b5C7E2Ccf8d9C69C11a",
-  },
-  {
-    id: "technical-spec",
-    title: "Technical Architecture & APA Specification",
-    href: "/apa-brief",
-    badge: "Whitepaper",
-    icon: FileCode,
-    isExternal: false,
-  },
-  {
-    id: "github",
-    title: "GitHub Protocol Repositories",
-    href: "https://github.com/zcredlabs",
-    badge: "zcredlabs",
-    icon: Code,
-    isExternal: true,
-  },
-  {
-    id: "twitter",
-    title: "Official X Profile",
-    href: "https://x.com/zCredLabs",
-    badge: "@zCredLabs",
-    icon: Globe,
-    isExternal: true,
-  },
-  {
-    id: "inquiries",
-    title: "Direct Founder & Diligence Email",
-    href: "mailto:hi@zcred.xyz",
-    badge: "hi@zcred.xyz",
-    icon: Mail,
-    isExternal: true,
-  },
-]
+const LINKS = DIRECTORY_LINKS.map((item) => ({
+  ...item,
+  icon: ICON_MAP[item.iconName as keyof typeof ICON_MAP] ?? Globe,
+}))
 
 export default function LinksPage() {
   const [copiedContract, setCopiedContract] = useState(false)
@@ -113,7 +49,7 @@ export default function LinksPage() {
 
   const handleCopyEmail = async () => {
     try {
-      await navigator.clipboard.writeText("hi@zcred.xyz")
+      await navigator.clipboard.writeText(SITE_CONFIG.email)
       setCopiedEmail(true)
       setTimeout(() => setCopiedEmail(false), 2000)
     } catch {
@@ -146,11 +82,11 @@ export default function LinksPage() {
 
           <div className="mt-4 flex items-center gap-2">
             <a
-              href="mailto:hi@zcred.xyz"
+              href={`mailto:${SITE_CONFIG.email}`}
               className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-mono font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-950 transition-colors shadow-2xs"
             >
               <Mail className="h-3.5 w-3.5 text-slate-400" />
-              hi@zcred.xyz
+              {SITE_CONFIG.email}
             </a>
             <button
               type="button"

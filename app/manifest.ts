@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next"
+import { SITE_CONFIG } from "@/lib/constants"
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "zCred Protocol — Confidential Decision Layer",
-    short_name: "zCred",
-    description: "The Confidential Decision Layer for Identity, Creditworthiness & Compliance in Web3, built on Horizen Vela and Base.",
+    name: "zCred Protocol — Confidential Compliance Decisions",
+    short_name: SITE_CONFIG.name,
+    description: SITE_CONFIG.description,
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",

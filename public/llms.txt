@@ -1,6 +1,6 @@
 # zCred Protocol
 
-> The Confidential Decision Layer for Identity, Creditworthiness & Compliance in Web3, built on Horizen Vela and Base.
+> Confidential compliance decisions for identity, creditworthiness & compliance in Web3, built on Horizen Vela and Base.
 
 zCred turns private identity, credit, and compliance credentials into reusable, application-specific attestations for Base — without ever exposing the user's raw data or the verifier's proprietary policy logic. Selected for Horizen Acceleration Season.
 
