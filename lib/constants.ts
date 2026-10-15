@@ -27,10 +27,35 @@ export const SITE_CONFIG = {
 export const NAV_LINKS = [
   { href: "/#how-it-works", label: "How it works" },
   { href: "/#use-cases", label: "Use cases" },
-  { href: "/#security", label: "Security" },
   { href: "/#developers", label: "Developers" },
-  { href: "/#faq", label: "FAQ" },
-  { href: "/#beta", label: "Join Beta" },
+] as const
+
+export const INTEGRATION_CHOICES = [
+  {
+    value: "general-diligence",
+    label: "General Technical Diligence / Pilot Exploration",
+    desc: "Architecture review, Horizen Vela enclaves, or Base settlement",
+  },
+  {
+    value: "rwa-compliance",
+    label: "Institutional KYC & Sanctions (RWA / DeFi)",
+    desc: "Gate liquidity pools and asset issuance without PII liability",
+  },
+  {
+    value: "web2-ingress",
+    label: "Custom Policy & Web2 Data Ingress (Fintech / CEX)",
+    desc: "Private multi-source evaluation via zkTLS and hardware enclaves",
+  },
+  {
+    value: "agent-passport",
+    label: "AI Agent Spending & Safety Passport",
+    desc: "Verify agent integrity and enforce onchain transaction guardrails",
+  },
+  {
+    value: "riskx-credit",
+    label: "Undercollateralized Lending & Credit (RiskX)",
+    desc: "Score cashflows & balance sheets for lower collateral ratios",
+  },
 ] as const
 
 export const FOOTER_COLUMNS = [
@@ -49,7 +74,6 @@ export const FOOTER_COLUMNS = [
     title: "Developers",
     links: [
       { label: "Integration", href: "/#developers" },
-      { label: "Whitepaper", href: "/apa-brief" },
       { label: "GitHub", href: SITE_CONFIG.links.github },
       { label: "llms.txt", href: "/llms.txt" },
     ],
@@ -105,14 +129,6 @@ export const DIRECTORY_LINKS = [
     iconName: "ShieldCheck",
     isExternal: true,
     contractAddress: SITE_CONFIG.contracts.baseSepoliaRegistry,
-  },
-  {
-    id: "technical-spec",
-    title: "Technical Architecture & APA Specification",
-    href: SITE_CONFIG.links.whitepaper,
-    badge: "Whitepaper",
-    iconName: "FileCode",
-    isExternal: false,
   },
   {
     id: "github",

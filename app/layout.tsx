@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     "zCred Protocol",
     "Confidential Computing",
     "Horizen Vela",
-    "Horizen Acceleration Season",
+    "Horizen Accelerator",
     "Horizen Labs",
     "Base",
     "Base L2",
@@ -161,7 +161,7 @@ const jsonLdData = {
         "@type": "Organization",
         name: "Horizen Labs",
         url: "https://horizen.io",
-        award: "Selected for Horizen Acceleration Season",
+        award: "Selected for Horizen Accelerator",
       },
     },
     {

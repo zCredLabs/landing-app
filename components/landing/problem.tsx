@@ -29,15 +29,15 @@ export function Problem() {
         description="Regulated and institutional capital needs identity, compliance and credit checks. Today that means choosing between privacy and access."
       />
 
-      <div className="mt-14 grid gap-5 md:grid-cols-3">
+      <div className="mt-8 sm:mt-12 grid gap-3.5 sm:gap-5 md:grid-cols-3">
         {PROBLEMS.map((p, i) => (
           <Reveal key={p.title} delay={i * 0.08}>
-            <article className="h-full rounded-xl border border-slate-200 bg-white p-7 transition-shadow hover:shadow-[0_8px_30px_-12px_rgba(15,23,42,0.12)]">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-700">
-                <p.icon className="h-5 w-5" />
+            <article className="h-full rounded-xl border border-slate-200 bg-white p-5 sm:p-7 transition-shadow hover:shadow-[0_8px_30px_-12px_rgba(15,23,42,0.12)]">
+              <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-700">
+                <p.icon className="h-4.5 w-4.5 sm:h-5 sm:w-5" />
               </div>
-              <h3 className="mt-5 text-lg font-semibold text-slate-950">{p.title}</h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-slate-600">{p.body}</p>
+              <h3 className="mt-4 sm:mt-5 text-base sm:text-lg font-semibold text-slate-950">{p.title}</h3>
+              <p className="mt-2 text-sm sm:text-[15px] leading-relaxed text-slate-600">{p.body}</p>
             </article>
           </Reveal>
         ))}

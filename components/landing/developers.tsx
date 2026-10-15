@@ -55,7 +55,7 @@ const POINTS = [
 export function Developers() {
   return (
     <Section id="developers" className="border-y border-slate-200/80 bg-slate-50/60">
-      <div className="grid items-center gap-14 lg:grid-cols-2">
+      <div className="grid items-center gap-8 lg:gap-14 lg:grid-cols-2">
         <div>
           <SectionHeader
             eyebrow="For developers"
@@ -63,19 +63,19 @@ export function Developers() {
             description="Your protocol never handles personal data. Check a user's zCred status directly from Solidity and keep your compliance surface at zero."
           />
           <Reveal delay={0.1}>
-            <ul className="mt-8 space-y-3">
+            <ul className="mt-5 sm:mt-8 space-y-2.5 sm:space-y-3">
               {POINTS.map((p) => (
-                <li key={p} className="flex items-center gap-3 text-[15px] text-slate-700">
-                  <Check className="h-4 w-4 flex-shrink-0 text-violet-600" />
+                <li key={p} className="flex items-center gap-2.5 sm:gap-3 text-xs sm:text-[15px] text-slate-700">
+                  <Check className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0 text-violet-600" />
                   {p}
                 </li>
               ))}
             </ul>
             <a
-              href={`https://sepolia.basescan.org/address/${REGISTRY_ADDRESS}`}
+              href={SITE_CONFIG.links.baseScan}
               target="_blank"
               rel="noreferrer"
-              className="mt-8 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2.5 font-mono text-xs text-slate-700 ring-1 ring-slate-200 transition-colors hover:ring-slate-300"
+              className="mt-5 sm:mt-8 inline-flex items-center gap-2 rounded-lg bg-white px-3.5 py-2 sm:px-4 sm:py-2.5 font-mono text-[11px] sm:text-xs text-slate-700 ring-1 ring-slate-200 transition-colors hover:ring-slate-300"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               ZcredRegistry on Base Sepolia · {REGISTRY_ADDRESS.slice(0, 6)}…{REGISTRY_ADDRESS.slice(-4)}
@@ -86,11 +86,11 @@ export function Developers() {
 
         <Reveal delay={0.15}>
           <div className="overflow-hidden rounded-xl bg-slate-950 shadow-[0_24px_64px_-24px_rgba(15,23,42,0.45)] ring-1 ring-slate-900">
-            <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-              <span className="font-mono text-xs text-slate-400">RwaPool.sol</span>
-              <span className="rounded bg-white/5 px-2 py-0.5 font-mono text-[10px] text-slate-400">Solidity ^0.8.24</span>
+            <div className="flex items-center justify-between border-b border-white/10 px-3.5 py-2.5 sm:px-4 sm:py-3">
+              <span className="font-mono text-[11px] sm:text-xs text-slate-400">RwaPool.sol</span>
+              <span className="rounded bg-white/5 px-2 py-0.5 font-mono text-[9px] sm:text-[10px] text-slate-400">Solidity ^0.8.24</span>
             </div>
-            <pre className="overflow-x-auto p-5 text-[12.5px] leading-6 text-slate-200">
+            <pre className="overflow-x-auto p-3.5 sm:p-5 text-[11px] sm:text-[12.5px] leading-5 sm:leading-6 text-slate-200">
               <code>{highlight(CODE)}</code>
             </pre>
           </div>

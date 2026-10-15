@@ -2,14 +2,14 @@
 
 > Confidential compliance decisions for identity, creditworthiness & compliance in Web3, built on Horizen Vela and Base.
 
-zCred turns private identity, credit, and compliance credentials into reusable, application-specific attestations for Base — without ever exposing the user's raw data or the verifier's proprietary policy logic. Selected for Horizen Acceleration Season.
+zCred turns private identity, credit, and compliance credentials into reusable, application-specific attestations for Base — without ever exposing the user's raw data or the verifier's proprietary policy logic. Selected for Horizen Accelerator.
 
 ## Quick Context for LLMs & AI Agents
 
 - **Architecture**: 3-Phase pipeline: (1) Client-side zkTLS Ingress, (2) Horizen Vela AWS Nitro TEE WASM Policy Execution, (3) 1-Line EVM Settlement on Base.
 - **Privacy Guarantees**: 0 Bytes PII retained. Sealed memory AES-128 execution. Domain-scoped cryptographic nullifiers prevent cross-dApp wallet tracking.
 - **Settlement Latency**: <180ms enclave decision latency; <26,000 gas on-chain EVM query.
-- **Grant & Ecosystem**: Selected for Horizen Acceleration Season (Horizen Labs & Base ecosystem).
+- **Grant & Ecosystem**: Selected for Horizen Accelerator (Horizen Labs & Base ecosystem).
 
 ## Canonical Documentation & Machine-Readable Context
 

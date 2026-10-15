@@ -18,7 +18,7 @@ import {
   Layers,
   ArrowRight,
 } from "lucide-react"
-import { SITE_CONFIG } from "@/lib/constants"
+import { INTEGRATION_CHOICES, SITE_CONFIG } from "@/lib/constants"
 
 interface MeetingModalProps {
   open: boolean
@@ -27,39 +27,11 @@ interface MeetingModalProps {
   initialIntegration?: string
 }
 
-const INTEGRATION_OPTIONS = [
-  {
-    id: "rwa-compliance",
-    label: "Institutional KYC & Sanctions (RWA / DeFi)",
-    desc: "Gate liquidity pools and asset issuance without PII liability",
-  },
-  {
-    id: "riskx-credit",
-    label: "Undercollateralized Lending (RiskX Credit)",
-    desc: "Score cashflows & balance sheets for lower collateral ratios",
-  },
-  {
-    id: "agent-passport",
-    label: "AI Agent Spending & Compliance Passport",
-    desc: "Verify agent integrity and enforce onchain transaction guardrails",
-  },
-  {
-    id: "custom-policy",
-    label: "Custom Privacy Policy & Web2 Data Ingress",
-    desc: "Private multi-source evaluation via zkTLS and hardware enclaves",
-  },
-  {
-    id: "general-diligence",
-    label: "General Technical Diligence / Ecosystem Pilot",
-    desc: "Architecture review, Horizen Vela enclaves, or Base settlement",
-  },
-] as const
-
 export function MeetingModal({
   open,
   onOpenChange,
   initialEmail = "",
-  initialIntegration = "rwa-compliance",
+  initialIntegration = "general-diligence",
 }: MeetingModalProps) {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -124,7 +96,7 @@ export function MeetingModal({
     setFormData({
       email: "",
       organization: "",
-      integrationType: "rwa-compliance",
+      integrationType: "general-diligence",
       explorationGoal: "",
     })
     onOpenChange(false)
@@ -220,8 +192,8 @@ export function MeetingModal({
                   onChange={(e) => setFormData({ ...formData, integrationType: e.target.value })}
                   className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:border-violet-600 focus:bg-white focus:outline-none transition-all cursor-pointer"
                 >
-                  {INTEGRATION_OPTIONS.map((opt) => (
-                    <option key={opt.id} value={opt.id}>
+                  {INTEGRATION_CHOICES.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>
                   ))}

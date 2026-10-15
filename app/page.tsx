@@ -17,13 +17,13 @@ export default function Home() {
       <Navbar />
       <main>
         <HeroSection />
-        <TrustBar />
         <Problem />
         <HowItWorks />
         <UseCases />
         <PrivacyBoundary />
-        <Security />
         <Developers />
+        <Security />
+        <TrustBar />
         <Faq />
         <Cta />
       </main>

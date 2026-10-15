@@ -28,19 +28,19 @@ const FAQS = [
 export function Faq() {
   return (
     <Section id="faq" className="border-t border-slate-200/80">
-      <div className="grid gap-12 lg:grid-cols-12">
+      <div className="grid gap-6 sm:gap-10 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <SectionHeader eyebrow="FAQ" title="Common questions" />
         </div>
         <Reveal className="lg:col-span-8">
           <div className="divide-y divide-slate-200 border-y border-slate-200">
             {FAQS.map((item) => (
-              <details key={item.q} className="group py-5 [&_summary::-webkit-details-marker]:hidden">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-base font-medium text-slate-950">
+              <details key={item.q} className="group py-3.5 sm:py-5 [&_summary::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 sm:gap-6 text-left text-sm sm:text-base font-medium text-slate-950">
                   {item.q}
                   <Plus className="h-4 w-4 flex-shrink-0 text-slate-400 transition-transform duration-200 group-open:rotate-45" />
                 </summary>
-                <p className="mt-3 max-w-2xl pr-10 text-[15px] leading-relaxed text-slate-600">{item.a}</p>
+                <p className="mt-2.5 sm:mt-3 max-w-2xl pr-4 sm:pr-10 text-xs sm:text-[15px] leading-relaxed text-slate-600">{item.a}</p>
               </details>
             ))}
           </div>

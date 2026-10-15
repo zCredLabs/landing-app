@@ -44,13 +44,13 @@ export function Security() {
         description="zCred is designed so that no single party, including us, can see the data it evaluates."
       />
 
-      <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-8 sm:mt-12 grid gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-3">
         {PILLARS.map((p, i) => (
           <Reveal key={p.title} delay={(i % 3) * 0.06} className="bg-white">
-            <div className="h-full p-7">
-              <p.icon className="h-5 w-5 text-violet-600" />
-              <h3 className="mt-5 text-base font-semibold text-slate-950">{p.title}</h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-slate-600">{p.body}</p>
+            <div className="h-full p-4.5 sm:p-6 lg:p-7">
+              <p.icon className="h-4.5 w-4.5 sm:h-5 sm:w-5 text-violet-600" />
+              <h3 className="mt-3 sm:mt-5 text-sm sm:text-base font-semibold text-slate-950">{p.title}</h3>
+              <p className="mt-1.5 sm:mt-2 text-xs sm:text-[15px] leading-relaxed text-slate-600">{p.body}</p>
             </div>
           </Reveal>
         ))}
