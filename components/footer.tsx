@@ -1,36 +1,81 @@
-"use client"
-
 import Image from "next/image"
 import Link from "next/link"
+import { Container } from "@/components/landing/primitives"
+
+const COLUMNS = [
+  {
+    title: "Product",
+    links: [
+      { label: "How it works", href: "/#how-it-works" },
+      { label: "Compliance Shield", href: "/#use-cases" },
+      { label: "RiskX Credit", href: "/#use-cases" },
+      { label: "Agent Passport", href: "/#use-cases" },
+    ],
+  },
+  {
+    title: "Developers",
+    links: [
+      { label: "Integration", href: "/#developers" },
+      { label: "Whitepaper", href: "/apa-brief" },
+      { label: "GitHub", href: "https://github.com/zcred-protocol" },
+      { label: "llms.txt", href: "/llms.txt" },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "Terms of Service", href: "/terms-of-service" },
+      { label: "Cookie Policy", href: "/cookie-policy" },
+      { label: "GDPR", href: "/gdpr-compliance" },
+    ],
+  },
+] as const
 
 export function Footer() {
   return (
-    <footer className="border-t border-gray-100 bg-white py-8 text-xs text-gray-500">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl flex flex-col md:flex-row items-center justify-between gap-6">
-
-        {/* Brand & Category */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-7 w-7 items-center justify-center overflow-hidden rounded-lg">
-              <Image src="/logo.png" alt="zCred" width={28} height={28} className="object-contain" />
-            </div>
-            <span className="text-sm font-bold text-black tracking-tight">zCred</span>
+    <footer className="border-t border-slate-200 bg-white">
+      <Container className="py-14">
+        <div className="grid gap-12 md:grid-cols-12">
+          <div className="md:col-span-5">
+            <Link href="/" className="flex items-center gap-2.5">
+              <Image src="/logo.png" alt="" width={28} height={28} className="rounded-lg" />
+              <span className="text-base font-semibold tracking-tight text-slate-950">zCred</span>
+            </Link>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-500">
+              The confidential decision layer for identity and compliance. Built on Horizen Vela and Base.
+            </p>
+            <a
+              href="https://x.com/zcred_org"
+              target="_blank"
+              rel="noreferrer"
+              className="mt-5 inline-block text-sm font-medium text-slate-700 hover:text-slate-950"
+            >
+              @zcred_org on X
+            </a>
           </div>
-          <span className="hidden sm:inline text-gray-300">•</span>
-          <span className="text-gray-600">The Confidential Decision Layer for Identity & Compliance</span>
+
+          {COLUMNS.map((col) => (
+            <div key={col.title} className="md:col-span-2">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-950">{col.title}</h3>
+              <ul className="mt-4 space-y-3">
+                {col.links.map((link) => (
+                  <li key={link.label}>
+                    <Link href={link.href} className="text-sm text-slate-500 transition-colors hover:text-slate-950">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        {/* Links */}
-        <div className="flex flex-wrap items-center justify-center gap-6">
-          <Link href="/privacy-policy" className="hover:text-black transition-colors font-medium">Privacy Policy</Link>
-          <span className="text-gray-200">•</span>
-          <Link href="/terms-of-service" className="hover:text-black transition-colors font-medium">Terms of Service</Link>
-          <span className="text-gray-200">•</span>
-          <span>© {new Date().getFullYear()} zCred Protocol</span>
+        <div className="mt-14 flex flex-col gap-3 border-t border-slate-100 pt-8 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+          <span>© {new Date().getFullYear()} zCred Protocol. All rights reserved.</span>
+          <span>Selected for Horizen Acceleration Season</span>
         </div>
-
-
-      </div>
+      </Container>
     </footer>
   )
 }

@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import "@/app/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { MeetingProvider } from "@/components/landing/meeting-context"
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://zcred.xyz"),
@@ -244,7 +245,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-white font-sans antialiased">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          {children}
+          <MeetingProvider>{children}</MeetingProvider>
         </ThemeProvider>
       </body>
     </html>

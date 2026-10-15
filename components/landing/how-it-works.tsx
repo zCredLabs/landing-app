@@ -1,0 +1,58 @@
+import { Cpu, FileCheck2, KeyRound } from "lucide-react"
+import { Reveal } from "@/components/landing/reveal"
+import { Section, SectionHeader } from "@/components/landing/primitives"
+
+const STEPS = [
+  {
+    icon: KeyRound,
+    step: "01",
+    title: "Encrypt on the user's device",
+    body: "The zCred SDK encrypts credentials to the enclave's public key. Data leaves the device sealed, and no server, RPC node or operator can read it.",
+    spec: "P-521 ECDH · AES-256-GCM",
+  },
+  {
+    icon: Cpu,
+    step: "02",
+    title: "Evaluate inside an enclave",
+    body: "A Horizen Vela node decrypts and runs the policy inside a hardware-isolated AWS Nitro enclave. Memory is wiped as soon as the decision is made.",
+    spec: "Rust → WASM · Wasmtime",
+  },
+  {
+    icon: FileCheck2,
+    step: "03",
+    title: "Settle a verdict on-chain",
+    body: "The enclave signs a compact attestation that is anchored to the zCred registry on Base. Any contract can check it with a single view call.",
+    spec: "EIP-712 · Base",
+  },
+] as const
+
+export function HowItWorks() {
+  return (
+    <Section id="how-it-works" className="bg-slate-50/60 border-y border-slate-200/80">
+      <SectionHeader
+        eyebrow="How it works"
+        title="Private in, verifiable out."
+        description="zCred separates where data is evaluated from where results are verified. Raw data never touches the chain, and the chain never has to trust a server."
+      />
+
+      <div className="relative mt-14 grid gap-5 lg:grid-cols-3">
+        <div className="pointer-events-none absolute left-0 right-0 top-[52px] hidden h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent lg:block" />
+        {STEPS.map((s, i) => (
+          <Reveal key={s.step} delay={i * 0.1}>
+            <article className="relative h-full rounded-xl border border-slate-200 bg-white p-7">
+              <div className="flex items-center justify-between">
+                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-violet-600 text-white shadow-sm shadow-violet-600/20">
+                  <s.icon className="h-5 w-5" />
+                </div>
+                <span className="font-mono text-sm text-slate-400">{s.step}</span>
+              </div>
+              <h3 className="mt-6 text-lg font-semibold text-slate-950">{s.title}</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-slate-600">{s.body}</p>
+              <p className="mt-6 border-t border-slate-100 pt-4 font-mono text-xs text-slate-500">{s.spec}</p>
+            </article>
+          </Reveal>
+        ))}
+      </div>
+    </Section>
+  )
+}
