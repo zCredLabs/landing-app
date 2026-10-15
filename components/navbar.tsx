@@ -48,7 +48,7 @@ export function Navbar() {
 
         <div className="hidden items-center gap-2 md:flex">
           <button type="button" onClick={openMeeting} className={cn(buttonStyles.primary, "px-4 py-2")}>
-            Join Beta
+            Request Pilot
             <ArrowRight className="h-3.5 w-3.5" />
           </button>
         </div>
@@ -86,7 +86,7 @@ export function Navbar() {
             }}
             className={cn(buttonStyles.primary, "mt-3 w-full py-2.5 text-sm")}
           >
-            Join Beta
+            Request Pilot
           </button>
         </div>
       )}

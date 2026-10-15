@@ -1,10 +1,10 @@
 export const SITE_CONFIG = {
   name: "zCred",
-  fullName: "zCred Protocol",
+  fullName: "zCred Labs",
   tagline: "Private Evidence. Onchain Decisions.",
   subtitle: "Confidential compliance decisions for onchain finance.",
   description:
-    "Automate institutional-grade KYC, sanctions screening, and investor accreditation without exposing PII or storing customer data on public ledgers. Built on Horizen Vela and Base.",
+    "Evaluate institutional offchain records privately and settle signed compliance decisions to smart contracts without exposing PII. Built on Horizen Vela and Base.",
   url: "https://zcred.xyz",
   email: "hi@zcred.xyz",
   links: {
@@ -12,7 +12,6 @@ export const SITE_CONFIG = {
     github: "https://github.com/zcredlabs",
     twitter: "https://x.com/zCredLabs",
     twitterHandle: "@zCredLabs",
-    deck: "/deck.html",
     whitepaper: "/apa-brief",
     links: "/links",
     baseScan: "https://sepolia.basescan.org/address/0xD27e6A8e297177C4Cb284b5C7E2Ccf8d9C69C11a",
@@ -26,35 +25,36 @@ export const SITE_CONFIG = {
 
 export const NAV_LINKS = [
   { href: "/#how-it-works", label: "How it works" },
-  { href: "/#use-cases", label: "Use cases" },
+  { href: "/#boundary", label: "Data boundary" },
   { href: "/#developers", label: "Developers" },
+  { href: "/#faq", label: "FAQ" },
 ] as const
 
 export const INTEGRATION_CHOICES = [
   {
-    value: "general-diligence",
-    label: "General Technical Diligence / Pilot Exploration",
-    desc: "Architecture review, Horizen Vela enclaves, or Base settlement",
+    value: "institutional-pilot",
+    label: "Institutional Onboarding & Scoped Pilot",
+    desc: "Evaluate 1 evidence source, 1 policy, and 1 application gate",
   },
   {
     value: "rwa-compliance",
-    label: "Institutional KYC & Sanctions (RWA / DeFi)",
-    desc: "Gate liquidity pools and asset issuance without PII liability",
+    label: "RWA & Fund Accreditation (Compliance Shield)",
+    desc: "Gate liquidity pools and asset issuance without PII custody",
   },
   {
-    value: "web2-ingress",
-    label: "Custom Policy & Web2 Data Ingress (Fintech / CEX)",
-    desc: "Private multi-source evaluation via zkTLS and hardware enclaves",
+    value: "defi-sanctions",
+    label: "DeFi Sanctions & Geofencing (OFAC Screening)",
+    desc: "Real-time non-custodial screening with policy-defined TTLs",
   },
   {
-    value: "agent-passport",
-    label: "AI Agent Spending & Safety Passport",
-    desc: "Verify agent integrity and enforce onchain transaction guardrails",
+    value: "investor-diligence",
+    label: "Investor & Venture Diligence",
+    desc: "Architecture review, financial model, and partnership discussion",
   },
   {
-    value: "riskx-credit",
-    label: "Undercollateralized Lending & Credit (RiskX)",
-    desc: "Score cashflows & balance sheets for lower collateral ratios",
+    value: "custom-exploratory",
+    label: "Custom Enclave Policy Exploration (Fintech / Agents)",
+    desc: "Explore custom WASM policies evaluated inside AWS Nitro enclaves",
   },
 ] as const
 
@@ -63,11 +63,11 @@ export const FOOTER_COLUMNS = [
     title: "Product",
     links: [
       { label: "How it works", href: "/#how-it-works" },
-      { label: "Compliance Shield", href: "/#use-cases" },
-      { label: "RiskX Credit", href: "/#use-cases" },
-      { label: "Agent Passport", href: "/#use-cases" },
-      { label: "Beta Onboarding", href: "/#beta" },
-      { label: "Directory", href: "/links" },
+      { label: "Data Boundary", href: "/#boundary" },
+      { label: "Developers", href: "/#developers" },
+      { label: "FAQ", href: "/#faq" },
+      { label: "Scoped Pilot", href: "/#pilot" },
+      { label: "Investors & Diligence", href: "/links" },
     ],
   },
   {
@@ -75,6 +75,7 @@ export const FOOTER_COLUMNS = [
     links: [
       { label: "Integration", href: "/#developers" },
       { label: "GitHub", href: SITE_CONFIG.links.github },
+      { label: "BaseScan Registry", href: SITE_CONFIG.links.baseScan },
       { label: "llms.txt", href: "/llms.txt" },
     ],
   },
@@ -91,20 +92,11 @@ export const FOOTER_COLUMNS = [
 
 export const HERO_ASSURANCES = [
   "Zero raw PII stored or custodied",
-  "Hardware-isolated enclave evaluation",
-  "One-line smart contract check",
+  "Hardware-isolated AWS Nitro enclaves",
+  "~2,520 gas view call on Base",
 ] as const
 
 export const DIRECTORY_LINKS = [
-  {
-    id: "pitch-deck",
-    title: "Investor Pitch Deck",
-    href: SITE_CONFIG.links.deck,
-    badge: "View Slides",
-    iconName: "FileText",
-    isExternal: true,
-    highlight: true,
-  },
   {
     id: "calendly",
     title: "Schedule 30-Min Technical Diligence",
@@ -112,12 +104,13 @@ export const DIRECTORY_LINKS = [
     badge: "Book Call",
     iconName: "Calendar",
     isExternal: true,
+    highlight: true,
   },
   {
     id: "platform-demo",
-    title: "Platform & Verification Engine",
+    title: "Platform Overview & Technical Architecture",
     href: "/",
-    badge: "Live App",
+    badge: "zcred.xyz",
     iconName: "Globe",
     isExternal: false,
   },

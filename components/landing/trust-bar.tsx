@@ -3,10 +3,10 @@ import { Container } from "@/components/landing/primitives"
 const STACK = ["Horizen Vela", "Base", "AWS Nitro Enclaves", "Wasmtime", "EIP-712"] as const
 
 const METRICS = [
-  { value: "0 bytes", label: "of personal data on-chain" },
-  { value: "171 bytes", label: "per signed attestation" },
-  { value: "< 26k gas", label: "to verify in a contract" },
-  { value: "3 policies", label: "live on Base Sepolia" },
+  { value: "0 bytes", label: "raw PII stored or custodied" },
+  { value: "~2,520 gas", label: "single view call query (1 SLOAD)" },
+  { value: "171 bytes", label: "EIP-712 signed attestation" },
+  { value: "10 pilots", label: "Cohort 1 target (5 Inst / 5 DeFi)" },
 ] as const
 
 export function TrustBar() {

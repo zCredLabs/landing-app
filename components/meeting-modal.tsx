@@ -31,7 +31,7 @@ export function MeetingModal({
   open,
   onOpenChange,
   initialEmail = "",
-  initialIntegration = "general-diligence",
+  initialIntegration = "institutional-pilot",
 }: MeetingModalProps) {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -96,7 +96,7 @@ export function MeetingModal({
     setFormData({
       email: "",
       organization: "",
-      integrationType: "general-diligence",
+      integrationType: "institutional-pilot",
       explorationGoal: "",
     })
     onOpenChange(false)

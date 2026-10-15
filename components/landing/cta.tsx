@@ -1,19 +1,17 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowRight, Calendar, CheckCircle2, Send, ShieldCheck, Sparkles } from "lucide-react"
+import { ArrowRight, Calendar, CheckCircle2, ShieldCheck, Sparkles } from "lucide-react"
 import { Reveal } from "@/components/landing/reveal"
 import { Container } from "@/components/landing/primitives"
-import { INTEGRATION_CHOICES, SITE_CONFIG } from "@/lib/constants"
+import { SITE_CONFIG } from "@/lib/constants"
 
 export function Cta() {
   const [email, setEmail] = useState("")
-  const [integrationType, setIntegrationType] = useState<string>("general-diligence")
-  const [explorationGoal, setExplorationGoal] = useState("")
+  const [organization, setOrganization] = useState("")
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
-  const [position, setPosition] = useState<number | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,8 +24,8 @@ export function Cta() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: email.trim(),
-          integrationType,
-          explorationGoal: explorationGoal.trim(),
+          organization: organization.trim(),
+          integrationType: "institutional-pilot",
         }),
       })
 
@@ -36,13 +34,9 @@ export function Cta() {
         throw new Error(data.error || "Failed to submit. Please try again.")
       }
 
-      if (data.position) {
-        setPosition(data.position)
-      }
       setSubmitted(true)
     } catch (err: any) {
-      console.warn("Waitlist submission failed, trying fallback", err)
-      // Fallback
+      console.warn("Pilot submission failed, trying fallback", err)
       try {
         await fetch("https://api.web3forms.com/submit", {
           method: "POST",
@@ -50,8 +44,8 @@ export function Cta() {
           body: JSON.stringify({
             access_key: "zcred-meeting-request",
             email: email.trim(),
-            integrationType,
-            explorationGoal: explorationGoal.trim(),
+            organization: organization.trim(),
+            integrationType: "institutional-pilot",
           }),
         }).catch(() => null)
         setSubmitted(true)
@@ -64,161 +58,117 @@ export function Cta() {
   }
 
   return (
-    <section id="beta" className="pb-12 sm:pb-20 lg:pb-28">
+    <section id="pilot" className="pb-12 sm:pb-20 lg:pb-24 scroll-mt-16">
+      <div id="beta" className="sr-only" />
       <Container>
         <Reveal>
-          <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-slate-950 px-5 py-8 sm:px-10 sm:py-14 lg:px-12 lg:py-16 text-white shadow-2xl">
-            <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-violet-600/25 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-32 left-10 h-80 w-80 rounded-full bg-indigo-500/20 blur-3xl" />
+          <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-slate-950 px-6 py-10 sm:px-12 sm:py-16 text-white shadow-2xl">
+            <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-violet-600/20 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-32 left-10 h-80 w-80 rounded-full bg-indigo-500/15 blur-3xl" />
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:48px_48px]" />
 
-            <div className="relative grid gap-8 lg:gap-12 lg:grid-cols-12 lg:items-center">
-              {/* Left Column: Context & Scheduling */}
-              <div className="lg:col-span-6">
-                <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-3 py-0.5 sm:py-1 text-[11px] sm:text-xs font-semibold text-violet-300">
-                  <span className="h-1.5 w-1.5 rounded-full bg-violet-400 animate-pulse" />
-                  Cohort 1 Beta Onboarding
-                </div>
+            <div className="relative max-w-2xl mx-auto text-center">
+              <span className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-3.5 py-1 text-xs font-semibold text-violet-300 mb-4">
+                <span className="h-1.5 w-1.5 rounded-full bg-violet-400 animate-pulse" />
+                Scoped Pilot Program
+              </span>
 
-                <h2 className="mt-3.5 sm:mt-4 text-2xl font-semibold tracking-tight text-white sm:text-3xl lg:text-4xl text-balance">
-                  Bring confidential compliance decisions to your protocol.
-                </h2>
+              <h2 className="text-2xl sm:text-4xl font-semibold tracking-tight text-white text-balance">
+                Request a scoped pilot.
+              </h2>
 
-                <p className="mt-3 sm:mt-4 text-sm sm:text-base lg:text-lg leading-relaxed text-slate-300">
-                  We are onboarding our first cohort of protocols, tokenized asset issuers, and fintech partners. Join the beta list to test in-enclave evaluation and Base attestation registry integration.
-                </p>
+              <p className="mt-3.5 text-sm sm:text-base text-slate-300 leading-relaxed max-w-xl mx-auto">
+                Scope one evidence source, one policy rule, and one contract gate. Benchmark review speed, zero-leak isolation, and onchain gas overhead for your protocol.
+              </p>
 
-                <div className="mt-6 sm:mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+              {!submitted ? (
+                <form onSubmit={handleSubmit} className="mt-8 max-w-md mx-auto space-y-3">
+                  <div className="flex flex-col sm:flex-row gap-2.5">
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="work@protocol.xyz"
+                      className="h-11 sm:h-12 flex-1 rounded-xl border border-white/10 bg-white/5 px-4 text-xs sm:text-sm text-white placeholder:text-slate-500 focus:border-violet-500 focus:bg-white/10 focus:outline-none transition-all"
+                    />
+                    <input
+                      type="text"
+                      required
+                      value={organization}
+                      onChange={(e) => setOrganization(e.target.value)}
+                      placeholder="Protocol / Entity"
+                      className="h-11 sm:h-12 w-full sm:w-36 rounded-xl border border-white/10 bg-white/5 px-4 text-xs sm:text-sm text-white placeholder:text-slate-500 focus:border-violet-500 focus:bg-white/10 focus:outline-none transition-all"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full h-11 sm:h-12 inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 text-xs sm:text-sm font-semibold text-white transition-all hover:bg-violet-500 disabled:opacity-50 shadow-sm cursor-pointer"
+                  >
+                    {loading ? (
+                      <>Submitting...</>
+                    ) : (
+                      <>
+                        <Sparkles className="h-3.5 w-3.5 text-violet-200" />
+                        Request Scoped Pilot Access
+                        <ArrowRight className="h-3.5 w-3.5 text-violet-300" />
+                      </>
+                    )}
+                  </button>
+
+                  {errorMsg && (
+                    <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-2.5 text-xs text-rose-300">
+                      {errorMsg}
+                    </div>
+                  )}
+
+                  <div className="pt-2 flex items-center justify-center gap-4 text-xs text-slate-400">
+                    <a
+                      href={SITE_CONFIG.links.calendly}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors"
+                    >
+                      <Calendar className="h-3.5 w-3.5 text-violet-400" />
+                      Schedule 30-min technical call ↗
+                    </a>
+                  </div>
+                </form>
+              ) : (
+                <div className="mt-8 py-6 text-center flex flex-col items-center">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 mb-3 border border-emerald-500/30">
+                    <CheckCircle2 className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-1">Pilot Request Queued</h3>
+                  <p className="text-xs text-slate-300 max-w-sm leading-relaxed mb-4">
+                    Thank you. Our architecture team will review <span className="font-semibold text-white">{email}</span> and reach out with pilot scoping specifications.
+                  </p>
                   <a
                     href={SITE_CONFIG.links.calendly}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm font-semibold text-slate-950 transition-colors hover:bg-slate-100 shadow-sm"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-violet-300 hover:text-white transition-colors"
                   >
-                    <Calendar className="h-4 w-4" />
-                    Book 30-Min Technical Call
+                    <Calendar className="h-3.5 w-3.5" /> Book a direct technical call on Calendly ↗
                   </a>
                 </div>
+              )}
 
-                <ul className="mt-6 sm:mt-8 space-y-2 sm:space-y-2.5 text-xs text-slate-400">
-                  <li className="flex items-center gap-2">
-                    <ShieldCheck className="h-4 w-4 text-emerald-400 shrink-0" />
-                    0 bytes persistent PII custody by design
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <ShieldCheck className="h-4 w-4 text-emerald-400 shrink-0" />
-                    AWS Nitro hardware TEE evaluation via Horizen Vela
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <ShieldCheck className="h-4 w-4 text-emerald-400 shrink-0" />
-                    Single-slot &lt;26,000 gas verification on Base
-                  </li>
-                </ul>
-              </div>
-
-              {/* Right Column: Beta Onboarding Form */}
-              <div className="lg:col-span-6">
-                <div className="rounded-xl sm:rounded-2xl border border-white/10 bg-white/[0.04] p-4.5 sm:p-7 lg:p-8 backdrop-blur-md">
-                  {!submitted ? (
-                    <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4">
-                      <div>
-                        <div className="flex items-center justify-between mb-1 sm:mb-1.5">
-                          <label className="text-[11px] sm:text-xs font-semibold text-slate-200">
-                            Work or Protocol Email <span className="text-violet-400">*</span>
-                          </label>
-                          <span className="text-[10px] sm:text-[11px] text-slate-400">Priority Review</span>
-                        </div>
-                        <input
-                          type="email"
-                          required
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          placeholder="alex@protocol.xyz"
-                          className="w-full rounded-xl border border-white/10 bg-white/5 px-3.5 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm text-white placeholder:text-slate-500 focus:border-violet-500 focus:bg-white/10 focus:outline-none transition-all"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-[11px] sm:text-xs font-semibold text-slate-200 mb-1 sm:mb-1.5">
-                          How do you want to integrate? <span className="text-violet-400">*</span>
-                        </label>
-                        <select
-                          value={integrationType}
-                          onChange={(e) => setIntegrationType(e.target.value)}
-                          className="w-full rounded-xl border border-white/10 bg-slate-900 px-3.5 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm text-white focus:border-violet-500 focus:outline-none transition-all cursor-pointer"
-                        >
-                          {INTEGRATION_CHOICES.map((choice) => (
-                            <option key={choice.value} value={choice.value} className="bg-slate-900 text-white">
-                              {choice.label}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-xs font-semibold text-slate-200 mb-1.5">
-                          What would you like to explore?
-                        </label>
-                        <textarea
-                          rows={2}
-                          value={explorationGoal}
-                          onChange={(e) => setExplorationGoal(e.target.value)}
-                          placeholder="e.g., Gating our institutional vault on Base, scoring cashflows for private credit..."
-                          className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white placeholder:text-slate-500 focus:border-violet-500 focus:bg-white/10 focus:outline-none transition-all resize-none"
-                        />
-                      </div>
-
-                      {errorMsg && (
-                        <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-300">
-                          {errorMsg}
-                        </div>
-                      )}
-
-                      <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-violet-500 disabled:opacity-50 shadow-sm cursor-pointer"
-                      >
-                        {loading ? (
-                          <>Submitting...</>
-                        ) : (
-                          <>
-                            <Sparkles className="h-4 w-4 text-violet-200" />
-                            Join the Beta List
-                            <ArrowRight className="h-4 w-4" />
-                          </>
-                        )}
-                      </button>
-
-                      <p className="text-center text-[11px] text-slate-400">
-                        Direct response within 24 hours. Your details will never be shared.
-                      </p>
-                    </form>
-                  ) : (
-                    <div className="py-6 text-center flex flex-col items-center">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 mb-3 border border-emerald-500/30">
-                        <CheckCircle2 className="h-6 w-6" />
-                      </div>
-                      <h3 className="text-lg font-bold text-white mb-1">You're on the Beta List</h3>
-                      <p className="text-xs text-slate-300 max-w-xs leading-relaxed mb-4">
-                        Thank you for registering. We have queued <span className="font-semibold text-white">{email}</span> for Phase 1 beta onboarding.
-                      </p>
-                      {position && (
-                        <div className="mb-4 inline-flex items-center rounded-full border border-violet-500/30 bg-violet-500/20 px-3.5 py-1 text-xs font-mono font-semibold text-violet-300">
-                          Cohort Member #{position}
-                        </div>
-                      )}
-                      <a
-                        href={SITE_CONFIG.links.calendly}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-violet-300 hover:text-white transition-colors"
-                      >
-                        <Calendar className="h-3.5 w-3.5" /> Need immediate scoping? Pick a slot on Calendly ↗
-                      </a>
-                    </div>
-                  )}
-                </div>
+              <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-400">
+                <span className="flex items-center gap-1.5">
+                  <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+                  0 bytes PII stored or custodied
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+                  AWS Nitro hardware enclave isolation
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+                  ~2,520 gas single-slot view verification
+                </span>
               </div>
             </div>
           </div>

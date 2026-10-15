@@ -41,7 +41,7 @@ export function Security() {
       <SectionHeader
         eyebrow="Security model"
         title="Defense in depth, from device to settlement."
-        description="zCred is designed so that no single party, including us, can see the data it evaluates."
+        description="Cryptographic data isolation, hardware enclave boundaries, and rigorous memory hygiene designed to keep client evidence confidential."
       />
 
       <div className="mt-8 sm:mt-12 grid gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-3">

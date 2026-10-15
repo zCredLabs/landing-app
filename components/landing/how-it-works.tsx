@@ -20,9 +20,9 @@ const STEPS = [
   {
     icon: FileCheck2,
     step: "03",
-    title: "Settle a verdict on-chain",
-    body: "The enclave signs a compact attestation that is anchored to the zCred registry on Base. Any contract can check it with a single view call.",
-    spec: "EIP-712 · Base",
+    title: "Settle a signed verdict onchain",
+    body: "The enclave signs a 171-byte attestation anchored to the Base Sepolia registry. Contracts verify it with a single view call. Onchain enclave-attestation verification is on the roadmap.",
+    spec: "EIP-712 · Base Sepolia",
   },
 ] as const
 
@@ -31,8 +31,8 @@ export function HowItWorks() {
     <Section id="how-it-works" className="bg-slate-50/60 border-y border-slate-200/80">
       <SectionHeader
         eyebrow="How it works"
-        title="Private in, verifiable out."
-        description="zCred separates where data is evaluated from where results are verified. Raw data never touches the chain, and the chain never has to trust a server."
+        title="Private evidence in, verifiable decision out."
+        description="zCred separates where sensitive evidence is evaluated from where decisions are verified. Raw data never touches the chain, and contracts verify a signed cryptographic decision."
       />
 
       <div className="relative mt-8 sm:mt-12 grid gap-3.5 sm:gap-5 lg:grid-cols-3">

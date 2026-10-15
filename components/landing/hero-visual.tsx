@@ -17,56 +17,56 @@ interface PolicyPreview {
 
 const POLICIES: PolicyPreview[] = [
   {
-    id: "compliance",
-    label: "Compliance Shield",
+    id: "org-eligibility",
+    label: "Org Eligibility",
     policyId: 2,
     inputs: [
-      { field: "Legal name", width: "w-28" },
-      { field: "Nationality / residence", width: "w-16" },
-      { field: "Liquid net worth", width: "w-20" },
-      { field: "Annual income", width: "w-24" },
+      { field: "Entity registration", width: "w-28" },
+      { field: "Beneficial ownership", width: "w-20" },
+      { field: "Jurisdiction check", width: "w-16" },
+      { field: "Sanctions screening", width: "w-24" },
     ],
-    verdict: "Accredited investor",
+    verdict: "Eligible (Approved)",
     facts: [
-      { label: "Sanctions screen", value: "Clear" },
+      { label: "Sanctions check", value: "Clear" },
       { label: "Jurisdiction", value: "Permitted" },
-      { label: "Valid for", value: "365 days" },
+      { label: "Validity", value: "Policy-defined" },
     ],
     nullifier: "0x7f3a…c91e",
   },
   {
-    id: "credit",
-    label: "RiskX Credit",
+    id: "sanctions",
+    label: "Sanctions Shield",
     policyId: 1,
     inputs: [
-      { field: "12-month cash flow", width: "w-24" },
-      { field: "Assets", width: "w-20" },
-      { field: "Liabilities", width: "w-16" },
-      { field: "Repayment history", width: "w-28" },
+      { field: "Identity credential", width: "w-24" },
+      { field: "OFAC SDN match", width: "w-20" },
+      { field: "EU / UK consolidated", width: "w-28" },
+      { field: "Geofencing telemetry", width: "w-16" },
     ],
-    verdict: "Credit tier AAA",
+    verdict: "Non-Sanctioned Trader",
     facts: [
-      { label: "Collateral required", value: "105% (vs 140%)" },
-      { label: "Max LTV", value: "95.2%" },
-      { label: "Score band", value: "800–850" },
+      { label: "OFAC 50% Rule", value: "Clean" },
+      { label: "Restricted Geo", value: "None" },
+      { label: "Re-check Window", value: "Short TTL" },
     ],
     nullifier: "0x2b8e…04d7",
   },
   {
-    id: "agent",
-    label: "Agent Passport",
+    id: "custom",
+    label: "Custom Enclave Policy",
     policyId: 3,
     inputs: [
-      { field: "Agent code hash", width: "w-28" },
-      { field: "Developer signature", width: "w-24" },
-      { field: "Daily spend limit", width: "w-16" },
-      { field: "Max drawdown", width: "w-12" },
+      { field: "WASM policy bytecode", width: "w-28" },
+      { field: "Encrypted evidence payload", width: "w-24" },
+      { field: "Institution signing key", width: "w-16" },
+      { field: "Execution constraints", width: "w-12" },
     ],
-    verdict: "Attested agent",
+    verdict: "Decision Attested",
     facts: [
-      { label: "Daily cap", value: "$1,000" },
-      { label: "Max drawdown", value: "15%" },
-      { label: "Valid for", value: "90 days" },
+      { label: "Hardware Root", value: "AWS Nitro" },
+      { label: "Raw PII Stored", value: "0 Bytes" },
+      { label: "Memory State", value: "Zeroized" },
     ],
     nullifier: "0xa41c…9f62",
   },
@@ -186,8 +186,8 @@ export function HeroVisual() {
         </AnimatePresence>
 
         <div className="flex items-center justify-between border-t border-slate-100 px-3.5 sm:px-4 py-2.5 sm:py-3 text-[10px] sm:text-[11px] text-slate-500">
-          <span>171-byte signed attestation</span>
-          <span className="font-mono">&lt; 26k gas to verify</span>
+          <span>171-byte signed attestation · Illustrative flow</span>
+          <span className="font-mono">~2,520 gas query (&lt; 26k tx)</span>
         </div>
 
         <div className="h-0.5 bg-slate-100">

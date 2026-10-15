@@ -46,10 +46,10 @@ function highlight(source: string) {
 }
 
 const POINTS = [
-  "Single view call, no oracle or off-chain API",
-  "Works with any EVM contract on Base",
-  "Expiry and revocation handled by the registry",
-  "TypeScript SDK for client-side encryption",
+  "Single view call (~2,520 gas / 1 SLOAD) with zero oracle latency",
+  "Works natively with any EVM contract on Base",
+  "Time-bound expiry is live; onchain revocation hook is on roadmap",
+  "TypeScript SDK for client-side credential encryption",
 ] as const
 
 export function Developers() {
@@ -59,8 +59,8 @@ export function Developers() {
         <div>
           <SectionHeader
             eyebrow="For developers"
-            title="Gate any contract with one line."
-            description="Your protocol never handles personal data. Check a user's zCred status directly from Solidity and keep your compliance surface at zero."
+            title="Gate any contract with one view call."
+            description="Your protocol never handles personal data. Check a user's zCred status directly from Solidity with ~2,520 gas and keep your compliance surface at zero."
           />
           <Reveal delay={0.1}>
             <ul className="mt-5 sm:mt-8 space-y-2.5 sm:space-y-3">

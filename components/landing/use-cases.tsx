@@ -4,34 +4,34 @@ import { MeetingButton } from "@/components/landing/meeting-context"
 import { Section, SectionHeader } from "@/components/landing/primitives"
 
 const COMPLIANCE_CHECKS = [
-  "OFAC sanctions screening",
-  "Restricted-jurisdiction blocking",
-  "Accredited investor verification",
-  "Reusable for 365 days, unlinkable across apps",
+  "OFAC 50% Rule & international sanctions screening",
+  "Restricted-jurisdiction and geofence verification",
+  "Accredited investor & organizational entity qualification",
+  "Policy-defined TTLs (short validity windows for sanctions)",
 ] as const
 
 const COMPLIANCE_STATUSES = [
-  { label: "Accredited", detail: "Institutional & RWA pools", tone: "bg-emerald-50 text-emerald-700 ring-emerald-200" },
-  { label: "Retail", detail: "Spot markets only", tone: "bg-sky-50 text-sky-700 ring-sky-200" },
-  { label: "Blocked", detail: "Sanctioned or restricted", tone: "bg-rose-50 text-rose-700 ring-rose-200" },
+  { label: "Eligible", detail: "Institutional vaults & RWA pools", tone: "bg-emerald-50 text-emerald-700 ring-emerald-200" },
+  { label: "Review Required", detail: "Document expired or pending refresh", tone: "bg-amber-50 text-amber-700 ring-amber-200" },
+  { label: "Ineligible", detail: "Sanctioned or restricted jurisdiction", tone: "bg-rose-50 text-rose-700 ring-rose-200" },
 ] as const
 
 const EXPLORATORY_POLICIES = [
   {
     icon: LineChart,
-    name: "RiskX Credit",
-    badge: "Exploratory Policy",
-    integrationId: "riskx-credit",
-    audience: "For DeFi lending & credit protocols",
-    body: "Evaluating offchain bank cashflows and reserves in-enclave to emit private credit tiers (AAA to BBB) for dynamic collateralization.",
+    name: "RiskX Credit (Exploratory)",
+    badge: "Roadmap Module",
+    integrationId: "custom-exploratory",
+    audience: "For DeFi lending & undercollateralized credit",
+    body: "Evaluating offchain bank cashflows and treasury balances inside hardware enclaves to emit private credit tiers (AAA to BBB) for dynamic collateral ratios.",
   },
   {
     icon: Bot,
-    name: "Agent Passport",
-    badge: "Exploratory Policy",
-    integrationId: "agent-passport",
-    audience: "For AI agent platforms & payment gates",
-    body: "Cryptographically verifying autonomous agent code provenance and enforcing spending thresholds directly from hardware enclaves.",
+    name: "Agent Passport (Exploratory)",
+    badge: "Roadmap Module",
+    integrationId: "custom-exploratory",
+    audience: "For autonomous agent payment & spending rails",
+    body: "Cryptographically verifying autonomous agent code provenance and enforcing onchain transaction thresholds directly from hardware enclaves.",
   },
 ] as const
 
@@ -76,7 +76,7 @@ export function UseCases() {
               integration="rwa-compliance"
               className="group mt-6 sm:mt-8 inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-violet-700 hover:text-violet-900 cursor-pointer"
             >
-              Apply for compliance beta
+              Request compliance pilot
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </MeetingButton>
           </div>
@@ -92,7 +92,7 @@ export function UseCases() {
               ))}
             </ul>
             <p className="mt-4 sm:mt-6 text-[11px] sm:text-xs leading-relaxed text-slate-500 font-mono">
-              Result: 1 byte status · 32 byte nullifier · EIP-712 signature. No personal data.
+              Result: 1 byte status · 32 byte nullifier · EIP-712 signature. Zero raw PII onchain.
             </p>
           </div>
         </article>

@@ -4,24 +4,24 @@ import { Section, SectionHeader } from "@/components/landing/primitives"
 
 const FAQS = [
   {
-    q: "Does zCred ever store personal data?",
-    a: "No. Data is decrypted only inside the enclave, evaluated, and wiped from memory. The only thing that persists is a 171-byte attestation containing a status, an expiry and a signature.",
+    q: "Does zCred ever store personal identity data?",
+    a: "No. Data is decrypted strictly inside an isolated hardware enclave, evaluated against the policy bytecode, and immediately zeroized from memory upon execution. The only artifact that persists is an EIP-712 signed attestation containing a 1-byte status, nullifier, and expiry timestamp.",
   },
   {
-    q: "Who can see a user's information?",
-    a: "Nobody outside the enclave: not the protocol, not the node operator, not the cloud provider and not the zCred team. Integrating contracts only see the resulting status.",
+    q: "Who owns the compliance policy and evidence sources?",
+    a: "The institution operates as the Rule Owner: you define the qualification criteria, sanction lists, and approved evidence sources. zCred functions as confidential decision infrastructure that executes your policy in an isolated environment without custodying your users' records.",
   },
   {
-    q: "How is this different from zero-knowledge proofs?",
-    a: "ZK proofs work well for narrow statements but become expensive for complex policies like credit scoring or sanctions screening. zCred runs arbitrary policy logic in an enclave and settles a result that costs under 26k gas to verify. The two approaches can complement each other.",
+    q: "How does verification gas cost compare to zero-knowledge proofs?",
+    a: "A standard smart contract view call costs ~2,520 gas (1 SLOAD). Full contract gating in an invest or mint transaction typically consumes under 26k gas. In contrast, verifying complex ZK circuits on-chain can cost 250k–500k+ gas and requires expensive off-chain proof generation for multi-source data.",
   },
   {
-    q: "Which chains are supported?",
-    a: "zCred settles to Base today, with contracts live on Base Sepolia. The registry is a standard EVM contract and can be deployed to other EVM chains.",
+    q: "Which chains and settlement environments are supported?",
+    a: "zCred settles to Base today, with contracts live on Base Sepolia. The registry is a standard EVM contract deployable to any EVM L1 or L2 network, backed by Horizen Vela confidential coprocessing.",
   },
   {
     q: "Is zCred production-ready?",
-    a: "All three policies are running end-to-end on testnet. On-chain hardware attestation verification and an external security audit are planned ahead of mainnet. We are onboarding design partners now.",
+    a: "zCred is active on Base Sepolia testnet with 99 passing test suites. Independent third-party security audits and direct onchain hardware PCR0 measurement verification are scheduled ahead of mainnet. We are currently onboarding initial design partners for our scoped pilot program.",
   },
 ] as const
 

@@ -14,28 +14,33 @@ export function HeroSection() {
       <Container>
         <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-12">
           <Reveal className="lg:col-span-6">
-            <a
-              href={SITE_CONFIG.links.horizen}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white py-1 pl-1 pr-3 text-xs font-medium text-slate-700 shadow-sm transition-colors hover:border-slate-300"
-            >
-              <span className="rounded-full bg-violet-600 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
-                Selected
+            <div className="flex flex-wrap items-center gap-2">
+              <a
+                href={SITE_CONFIG.links.horizen}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white py-1 pl-1 pr-3 text-xs font-medium text-slate-700 shadow-sm transition-colors hover:border-slate-300"
+              >
+                <span className="rounded-full bg-violet-600 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+                  Selected
+                </span>
+                Horizen Accelerator
+                <ArrowRight className="h-3 w-3 text-slate-400" />
+              </a>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-800">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                Base Sepolia Testnet Beta
               </span>
-              Horizen Accelerator
-              <ArrowRight className="h-3 w-3 text-slate-400" />
-            </a>
+            </div>
 
             <h1 className="mt-4 sm:mt-6 text-3xl font-semibold leading-[1.08] tracking-tight text-slate-950 sm:text-5xl lg:text-[4.1rem] text-balance">
-              Prove compliance.
+              Private evidence.
               <br />
-              <span className="bg-gradient-to-r from-violet-700 to-indigo-600 bg-clip-text text-transparent">Reveal nothing.</span>
+              <span className="bg-gradient-to-r from-violet-700 to-indigo-600 bg-clip-text text-transparent">Onchain decisions.</span>
             </h1>
 
             <p className="mt-3.5 sm:mt-6 max-w-xl text-[15px] sm:text-lg leading-relaxed text-slate-600">
-              zCred delivers confidential compliance decisions for protocols and asset issuers. Sensitive credentials are evaluated inside
-              hardware-isolated enclaves on Horizen Vela, and only a signed verdict settles on Base.
+              zCred lets institutions evaluate offchain records privately and gives smart contracts a signed eligibility decision, without handing sensitive identity documents to every app.
             </p>
 
             <HeroCta />

@@ -19,7 +19,7 @@ const PUBLIC = [
 
 export function PrivacyBoundary() {
   return (
-    <Section>
+    <Section id="boundary">
       <SectionHeader
         eyebrow="Data boundary"
         title="A clear line between what stays private and what settles."

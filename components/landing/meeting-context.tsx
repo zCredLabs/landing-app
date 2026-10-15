@@ -17,7 +17,7 @@ const MeetingContext = createContext<(opts?: OpenModalOptions) => void>(() => {}
 export function MeetingProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false)
   const [initialEmail, setInitialEmail] = useState("")
-  const [initialIntegration, setInitialIntegration] = useState("general-diligence")
+  const [initialIntegration, setInitialIntegration] = useState("institutional-pilot")
 
   const openModal = useCallback((opts?: OpenModalOptions) => {
     if (opts?.email) setInitialEmail(opts.email)

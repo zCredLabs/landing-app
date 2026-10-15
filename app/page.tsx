@@ -1,15 +1,12 @@
 import { Navbar } from "@/components/navbar"
 import { HeroSection } from "@/components/hero-section"
 import { Footer } from "@/components/footer"
-import { TrustBar } from "@/components/landing/trust-bar"
-import { Problem } from "@/components/landing/problem"
 import { HowItWorks } from "@/components/landing/how-it-works"
-import { UseCases } from "@/components/landing/use-cases"
 import { PrivacyBoundary } from "@/components/landing/privacy-boundary"
-import { Security } from "@/components/landing/security"
 import { Developers } from "@/components/landing/developers"
 import { Faq } from "@/components/landing/faq"
 import { Cta } from "@/components/landing/cta"
+import { UseCases } from "@/components/landing/use-cases";
 
 export default function Home() {
   return (
@@ -17,13 +14,10 @@ export default function Home() {
       <Navbar />
       <main>
         <HeroSection />
-        <Problem />
         <HowItWorks />
         <UseCases />
         <PrivacyBoundary />
         <Developers />
-        <Security />
-        <TrustBar />
         <Faq />
         <Cta />
       </main>

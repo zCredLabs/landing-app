@@ -7,6 +7,8 @@ interface WaitlistEntry {
   integrationType: string
   explorationGoal?: string
   organization?: string
+  role?: string
+  roleType?: string
   createdAt: string
   ip?: string
   userAgent?: string
@@ -46,7 +48,7 @@ function saveWaitlist(entries: WaitlistEntry[]) {
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { email, integrationType, explorationGoal, organization } = body
+    const { email, integrationType, explorationGoal, organization, role, roleType } = body
 
     if (!email || typeof email !== "string" || !email.includes("@")) {
       return NextResponse.json(
@@ -62,9 +64,11 @@ export async function POST(request: Request) {
 
     const entry: WaitlistEntry = {
       email: normalizedEmail,
-      integrationType: integrationType || "institutional-compliance",
+      integrationType: integrationType || "institutional-pilot",
       explorationGoal: explorationGoal?.trim() || "",
       organization: organization?.trim() || "",
+      role: role?.trim() || "",
+      roleType: roleType?.trim() || "",
       createdAt: new Date().toISOString(),
       userAgent: request.headers.get("user-agent") || undefined,
     }
